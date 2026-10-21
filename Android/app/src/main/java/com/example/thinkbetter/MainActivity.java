@@ -1,5 +1,6 @@
 package com.example.thinkbetter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,19 +45,28 @@ public class MainActivity extends AppCompatActivity {
 
                 if (id == R.id.nav_inicio) {
                     Toast.makeText(MainActivity.this, "Início", Toast.LENGTH_SHORT).show();
-
                 } else if (id == R.id.nav_agenda) {
+                    //falta
                     Toast.makeText(MainActivity.this, "Agenda", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_atendimentos) {
+                    Intent intent = new Intent(MainActivity.this, AtendimentosActivity.class);
+                    startActivity(intent);
                     Toast.makeText(MainActivity.this, "Atendimentos", Toast.LENGTH_SHORT).show();
+                    return true;
                 } else if (id == R.id.nav_pacientes) {
+                    Intent intent = new Intent(MainActivity.this, PacienteActivity.class);
+                    startActivity(intent);
                     Toast.makeText(MainActivity.this, "Pacientes", Toast.LENGTH_SHORT).show();
+                    return true;
                 } else if (id == R.id.nav_documentos) {
                     Toast.makeText(MainActivity.this, "Documentos", Toast.LENGTH_SHORT).show();
+                    return true;
                 } else if (id == R.id.nav_configuracoes) {
                     Toast.makeText(MainActivity.this, "Configurações", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_sair) {
                     Toast.makeText(MainActivity.this, "Saindo do sistema...", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
                     finish(); // Fecha a Activity
                 }
 
@@ -75,4 +85,5 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 }

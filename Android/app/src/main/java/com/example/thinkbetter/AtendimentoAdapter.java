@@ -13,7 +13,7 @@ import java.util.List;
 
 public class AtendimentoAdapter extends RecyclerView.Adapter<AtendimentoAdapter.AtendimentoViewHolder> {
 
-    private List<Atendimento> listaAtendimentos;
+    private final List<Atendimento> listaAtendimentos;
 
     public AtendimentoAdapter(List<Atendimento> listaAtendimentos) {
         this.listaAtendimentos = listaAtendimentos;

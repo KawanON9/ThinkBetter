@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AtendimentoActivity extends AppCompatActivity {
+public class AtendimentosActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private AtendimentoAdapter adapter;
@@ -42,7 +42,7 @@ public class AtendimentoActivity extends AppCompatActivity {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AtendimentoActivity.this, "Abrir menu lateral", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AtendimentosActivity.this, "Abrir menu lateral", Toast.LENGTH_SHORT).show();
             }
         });
     }

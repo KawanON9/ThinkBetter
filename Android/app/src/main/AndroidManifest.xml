@@ -24,7 +24,7 @@
 
         <activity android:name=".LoginActivity"/>
         <activity android:name=".AtendimentosActivity"/>
-        <activity android:name=".PacientesActivity"/>
+        <activity android:name=".PacienteActivity"/>
         <activity android:name=".PerfilActivity"/>
         <activity android:name=".SobreActivity"/>
     </application>
