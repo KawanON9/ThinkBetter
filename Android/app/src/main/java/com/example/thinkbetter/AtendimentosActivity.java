@@ -1,5 +1,6 @@
 package com.example.thinkbetter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -12,19 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AtendimentosActivity extends AppCompatActivity {
+public class AtendimentosActivity extends MenuJava {
 
     private RecyclerView recyclerView;
     private AtendimentoAdapter adapter;
     private List<Atendimento> atendimentoList;
-    private ImageButton btnMenu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_atendimentos);
 
-        btnMenu = findViewById(R.id.btnMenu);
+        // Ativa o botão de abrir o menu lateral (hambúrguer)
+        setupMenuButton(R.id.btnMenu);
+
         recyclerView = findViewById(R.id.recyclerViewAtendimentos);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -37,13 +40,5 @@ public class AtendimentosActivity extends AppCompatActivity {
 
         adapter = new AtendimentoAdapter(atendimentoList);
         recyclerView.setAdapter(adapter);
-
-        // Ação de clique do menu
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(AtendimentosActivity.this, "Abrir menu lateral", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

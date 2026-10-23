@@ -1,5 +1,6 @@
 package com.example.thinkbetter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,12 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PacienteActivity extends AppCompatActivity {
+public class PacienteActivity extends MenuJava {
 
     private RecyclerView recyclerView;
     private PacienteAdapter adapter;
     private List<Paciente> pacienteList;
-    private ImageButton btnMenu;
     private Button btnSort;
     private EditText etSearch;
 
@@ -28,7 +28,9 @@ public class PacienteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pacientes);
 
-        btnMenu = findViewById(R.id.btnMenu);
+        // Ativa o botão de abrir o menu lateral (hambúrguer)
+        setupMenuButton(R.id.btnMenu);
+
         btnSort = findViewById(R.id.btnSort);
         etSearch = findViewById(R.id.etSearch);
         recyclerView = findViewById(R.id.recyclerViewPacientes);
@@ -47,17 +49,12 @@ public class PacienteActivity extends AppCompatActivity {
         adapter = new PacienteAdapter(pacienteList);
         recyclerView.setAdapter(adapter);
 
-        // Ações de clique simuladas
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(PacienteActivity.this, "Abrir menu lateral", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         btnSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(PacienteActivity.this, MainActivity.class);
+                startActivity(intent);
                 Toast.makeText(PacienteActivity.this, "Ordenação A-Z ativada", Toast.LENGTH_SHORT).show();
             }
         });
