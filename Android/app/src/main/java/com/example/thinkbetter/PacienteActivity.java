@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class PacienteActivity extends MenuJava {
     private Button btnSort;
     private EditText etSearch;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,7 @@ public class PacienteActivity extends MenuJava {
         btnSort = findViewById(R.id.btnSort);
         etSearch = findViewById(R.id.etSearch);
         recyclerView = findViewById(R.id.recyclerViewPacientes);
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -56,6 +59,14 @@ public class PacienteActivity extends MenuJava {
                 Intent intent = new Intent(PacienteActivity.this, MainActivity.class);
                 startActivity(intent);
                 Toast.makeText(PacienteActivity.this, "Ordenação A-Z ativada", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        tvSeta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(PacienteActivity.this, ProntuarioActivity.class);
+                startActivity(intent);
             }
         });
     }

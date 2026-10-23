@@ -3,7 +3,6 @@ package com.example.thinkbetter;
 import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -24,12 +23,6 @@ public class MenuJava extends AppCompatActivity {
         // 1. Infla o layout principal (MainActivity) que contém o DrawerLayout e o NavigationView
         DrawerLayout fullView = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_main, null);
 
-        // 2. Encontra o ScrollView que envolve o conteúdo da MainActivity
-        // (No seu XML da MainActivity, o conteúdo está dentro de um ScrollView)
-        ScrollView contentScrollView = fullView.findViewById(android.R.id.content); // ou pegamos pelo ID se houver, mas vamos injetar direto no ScrollView ou substituir o seu conteúdo
-
-        // Como o seu XML da MainActivity usa um ScrollView envolvendo o ConstraintLayout principal,
-        // vamos procurar o ScrollView para substituir seu conteúdo interno, ou injetar de forma limpa:
         super.setContentView(fullView);
 
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -37,10 +30,10 @@ public class MenuJava extends AppCompatActivity {
 
         // Se a Activity filha NÃO for a MainActivity, nós substituímos o conteúdo do ScrollView pelo XML da tela filha
         if (!(this instanceof MainActivity)) {
-            ScrollView scrollView = fullView.findViewById(R.id.scrollViewContent); // Vamos dar ID no passo 2
+            ScrollView scrollView = fullView.findViewById(R.id.scrollViewContent);
             if (scrollView != null) {
                 scrollView.removeAllViews();
-                // Infla o XML específico da tela filha (ex: activity_paciente) dentro do ScrollView
+                // Infla o XML específico da tela filha dentro do ScrollView
                 getLayoutInflater().inflate(layoutResID, scrollView, true);
             }
         }
@@ -49,6 +42,8 @@ public class MenuJava extends AppCompatActivity {
     }
 
     private void setupDrawerActions() {
+        if (navigationView == null) return;
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -74,7 +69,10 @@ public class MenuJava extends AppCompatActivity {
                 } else if (id == R.id.nav_documentos) {
                     Toast.makeText(MenuJava.this, "Documentos", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_configuracoes) {
-                    Toast.makeText(MenuJava.this, "Configurações", Toast.LENGTH_SHORT).show();
+                    if (!(MenuJava.this instanceof ConfiguracoesActivity)) {
+                        startActivity(new Intent(MenuJava.this, ConfiguracoesActivity.class));
+                        finish();
+                    }
                 } else if (id == R.id.nav_sair) {
                     Toast.makeText(MenuJava.this, "Saindo do sistema...", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MenuJava.this, LoginActivity.class);
@@ -82,7 +80,9 @@ public class MenuJava extends AppCompatActivity {
                     finish();
                 }
 
-                drawerLayout.closeDrawer(GravityCompat.START);
+                if (drawerLayout != null) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }
                 return true;
             }
         });
@@ -95,13 +95,16 @@ public class MenuJava extends AppCompatActivity {
             btnMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    drawerLayout.openDrawer(GravityCompat.START);
+                    if (drawerLayout != null) {
+                        drawerLayout.openDrawer(GravityCompat.START);
+                    }
                 }
             });
         }
     }
 
-    public void onBackPressedDispather() {
+    @Override
+    public void onBackPressed() {
         if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {

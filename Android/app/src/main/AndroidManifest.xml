@@ -22,11 +22,17 @@
             </intent-filter>
         </activity>
 
+        <!--Geral-->
         <activity android:name=".LoginActivity"/>
+        <activity android:name=".ConfiguracoesActivity" />
+        <activity android:name=".NotificacoesActivity"/>
+        <!--Psicologo-->
         <activity android:name=".AtendimentosActivity"/>
         <activity android:name=".PacienteActivity"/>
         <activity android:name=".PerfilActivity"/>
         <activity android:name=".SobreActivity"/>
+
+
     </application>
 
 </manifest>
