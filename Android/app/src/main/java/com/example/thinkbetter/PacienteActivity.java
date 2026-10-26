@@ -31,7 +31,7 @@ public class PacienteActivity extends MenuJava {
         setContentView(R.layout.activity_pacientes);
 
         // Ativa o botão de abrir o menu lateral (hambúrguer)
-        setupMenuButton(R.id.btnMenu);
+        setupMenuPsicologoButton(R.id.btnMenu);
 
         btnSort = findViewById(R.id.btnSort);
         etSearch = findViewById(R.id.etSearch);
@@ -62,6 +62,7 @@ public class PacienteActivity extends MenuJava {
             }
         });
 
+        /*
         tvSeta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -69,5 +70,7 @@ public class PacienteActivity extends MenuJava {
                 startActivity(intent);
             }
         });
+
+         */
     }
 }

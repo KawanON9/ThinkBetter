@@ -26,7 +26,7 @@ public class AtendimentosActivity extends MenuJava {
         setContentView(R.layout.activity_atendimentos);
 
         // Ativa o botão de abrir o menu lateral (hambúrguer)
-        setupMenuButton(R.id.btnMenu);
+        setupMenuPsicologoButton(R.id.btnMenu);
 
         recyclerView = findViewById(R.id.recyclerViewAtendimentos);
 

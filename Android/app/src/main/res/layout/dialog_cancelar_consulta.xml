@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card_white"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deseja realmente cancelar esta consulta?"
+        android:textColor="#112222"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- Card de Detalhes da Consulta no Modal -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_card_outlined"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Psicólogo(a)" android:textColor="#668888" android:textSize="13sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Dr. Rafael Costa" android:textColor="#222222" android:textSize="13sp" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Data" android:textColor="#668888" android:textSize="13sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="29/10/2026" android:textColor="#222222" android:textSize="13sp" android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Horário" android:textColor="#668888" android:textSize="13sp" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="14:00" android:textColor="#222222" android:textSize="13sp" android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Botão Sim, cancelar -->
+    <Button
+        android:id="@+id/btnSimCancelar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@android:color/transparent"
+        android:text="Sim, cancelar"
+        android:textAllCaps="false"
+        android:textColor="#E53E3E"
+        android:textSize="15sp"
+        app:cornerRadius="12dp"
+        app:strokeColor="#FEB2B2"
+        app:strokeWidth="1dp" />
+
+    <!-- Botão Manter consulta -->
+    <Button
+        android:id="@+id/btnManterConsulta"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/transparent"
+        android:text="Manter consulta"
+        android:textAllCaps="false"
+        android:textColor="#2E8B82"
+        android:textSize="15sp"
+        app:cornerRadius="12dp"
+        app:strokeColor="#2E8B82"
+        app:strokeWidth="1dp" />
+
+</LinearLayout>

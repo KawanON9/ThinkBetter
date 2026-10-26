@@ -18,7 +18,7 @@ public class ConfiguracoesActivity extends MenuJava {
         setContentView(R.layout.activity_configuracoes);
 
         // Ativa o botão de abrir o menu lateral (hambúrguer)
-        setupMenuButton(R.id.btnMenu);
+        setupMenuPsicologoButton(R.id.btnMenu);
 
         cardMeuPerfil = findViewById(R.id.cardMeuPerfil);
         cardSeguranca = findViewById(R.id.cardSeguranca);

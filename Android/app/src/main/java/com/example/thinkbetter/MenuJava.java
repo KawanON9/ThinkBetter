@@ -55,6 +55,8 @@ public class MenuJava extends AppCompatActivity {
                         finish();
                     }
                 } else if (id == R.id.nav_agenda) {
+                    startActivity(new Intent(MenuJava.this, AgendaActivity.class));
+                    finish();
                     Toast.makeText(MenuJava.this, "Agenda", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_atendimentos) {
                     if (!(MenuJava.this instanceof AtendimentosActivity)) {
@@ -89,7 +91,7 @@ public class MenuJava extends AppCompatActivity {
     }
 
     // Método para ligar o botão de abrir o menu em qualquer tela
-    protected void setupMenuButton(int btnMenuId) {
+    protected void setupMenuPsicologoButton(int btnMenuId) {
         ImageButton btnMenu = findViewById(btnMenuId);
         if (btnMenu != null) {
             btnMenu.setOnClickListener(new View.OnClickListener() {
@@ -103,8 +105,7 @@ public class MenuJava extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    public void onBackPressedDispatcher() {
         if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {

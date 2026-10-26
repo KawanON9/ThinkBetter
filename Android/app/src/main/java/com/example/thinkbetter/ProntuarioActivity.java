@@ -26,7 +26,7 @@ public class ProntuarioActivity extends MenuJava {
         setContentView(R.layout.activity_prontuario);
 
         // Ativa o botão de abrir o menu lateral (hambúrguer)
-        setupMenuButton(R.id.btnMenu);
+        setupMenuPsicologoButton(R.id.btnMenu);
 
 
         btnMenu = findViewById(R.id.btnMenu);

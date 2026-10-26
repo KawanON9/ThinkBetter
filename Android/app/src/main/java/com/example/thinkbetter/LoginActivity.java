@@ -1,5 +1,6 @@
 package com.example.thinkbetter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -58,6 +59,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (email.isEmpty() || senha.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                } else if (email.equals("admin") && senha.equals("admin")) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (email == "paciente" && senha == "paciente") {
+                    Intent intent = new Intent(LoginActivity.this, MainPacienteActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
                     // Aqui você colocará a lógica de autenticação
                     Toast.makeText(LoginActivity.this, "Tentando entrar...", Toast.LENGTH_SHORT).show();

@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ThinkBetter">
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -23,14 +23,27 @@
         </activity>
 
         <!--Geral-->
-        <activity android:name=".LoginActivity"/>
         <activity android:name=".ConfiguracoesActivity" />
         <activity android:name=".NotificacoesActivity"/>
+        <activity android:name=".MenuJava"/>
+
         <!--Psicologo-->
+        <activity android:name=".MainActivity"/>
         <activity android:name=".AtendimentosActivity"/>
         <activity android:name=".PacienteActivity"/>
         <activity android:name=".PerfilActivity"/>
         <activity android:name=".SobreActivity"/>
+
+        <activity android:name=".AgendaActivity"/>
+        <activity android:name=".ProntuarioActivity"/>
+        <activity android:name=".EmissaoEtapa2Activity"/>
+        <activity android:name=".EmissaoEtapa3Activity"/>
+        <activity android:name=".EmissaoEtapa4Activity"/>
+
+        <!--Paciente-->
+        <activity android:name=".MainPacienteActivity"/>
+        <activity android:name=".AgendarConsultaActivity"/>
+        <activity android:name=".MeusDocumentosActivity"/>
 
 
     </application>

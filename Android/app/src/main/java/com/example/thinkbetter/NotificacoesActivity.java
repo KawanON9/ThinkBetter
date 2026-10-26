@@ -18,7 +18,7 @@ public class NotificacoesActivity extends MenuJava {
         setContentView(R.layout.activity_notificacoes);
 
         // Ativa o botão de abrir o menu lateral (hambúrguer)
-        setupMenuButton(R.id.btnMenu);
+        setupMenuPsicologoButton(R.id.btnMenu);
 
         btnVoltar = findViewById(R.id.btnVoltar);
         switchLembretes = findViewById(R.id.switchLembretesSessao);

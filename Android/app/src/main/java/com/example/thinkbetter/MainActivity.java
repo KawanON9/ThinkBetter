@@ -15,7 +15,7 @@ public class MainActivity extends MenuJava {
         setContentView(R.layout.activity_main);
 
         // Ativa o botão de abrir o menu lateral (hambúrguer)
-        setupMenuButton(R.id.btnMenu);
+        setupMenuPsicologoButton(R.id.btnMenu);
 
         // Opcional: Se você quiser que os cards de acesso rápido da tela inicial
         // também abram as respectivas telas, você pode configurá-los aqui:

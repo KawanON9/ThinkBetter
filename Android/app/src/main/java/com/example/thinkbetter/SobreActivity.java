@@ -15,7 +15,7 @@ public class SobreActivity extends MenuJava {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sobre);
 
-        setupMenuButton(R.id.btnMenu);
+        setupMenuPsicologoButton(R.id.btnMenu);
 
         btnVoltar = findViewById(R.id.btnVoltar);
         btnCentralAjuda = findViewById(R.id.btnCentralAjuda);

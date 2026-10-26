@@ -18,7 +18,7 @@ public class PerfilActivity extends MenuJava {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        setupMenuButton(R.id.btnMenu);
+        setupMenuPsicologoButton(R.id.btnMenu);
 
         btnVoltar = findViewById(R.id.btnVoltar);
         btnAlterarFoto = findViewById(R.id.btnAlterarFoto);
