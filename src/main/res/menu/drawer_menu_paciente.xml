@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_paciente_inicio"
+            android:icon="@android:drawable/ic_menu_today"
+            android:title="Início" />
+        <item
+            android:id="@+id/nav_paciente_agendar"
+            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:title="Agendar Consulta" />
+        <item
+            android:id="@+id/nav_paciente_documentos"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="Meus Documentos" />
+        <item
+            android:id="@+id/nav_paciente_configuracoes"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="Configurações" />
+    </group>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_paciente_sair"
+                android:icon="@android:drawable/ic_lock_power_off"
+                android:title="Sair do sistema" />
+        </menu>
+    </item>
+</menu>
