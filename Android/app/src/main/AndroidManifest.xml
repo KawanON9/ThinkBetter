@@ -13,16 +13,12 @@
         android:theme="@style/Theme.ThinkBetter">
         <activity
             android:name=".AgendaActivity"
-            android:exported="true"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <!--Geral-->
+        <activity android:name=".CadastroUsuarioActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ConfiguracoesActivity" />
         <activity android:name=".NotificacoesActivity"/>
         <activity android:name=".MenuJava"/>
@@ -34,7 +30,16 @@
         <activity android:name=".PerfilActivity"/>
         <activity android:name=".SobreActivity"/>
 
-        <activity android:name=".LoginActivity"/>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".ProntuarioActivity"/>
         <activity android:name=".EmissaoEtapa2Activity"/>
         <activity android:name=".EmissaoEtapa3Activity"/>
@@ -50,6 +55,7 @@
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".SecurityActivity"/>
         <activity android:name=".BaseActivity"/>
+        <activity android:name=".AboutActivity"/>
     </application>
 
 </manifest>

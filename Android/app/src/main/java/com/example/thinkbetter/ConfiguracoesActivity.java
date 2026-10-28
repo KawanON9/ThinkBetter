@@ -9,12 +9,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
-public class ConfiguracoesActivity extends AppCompatActivity {
+public class ConfiguracoesActivity extends MenuJava {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_configuracoes);
+
+        // Ativa o botão de abrir o menu lateral (hambúrguer)
+        setupMenuPsicologoButton(R.id.btnMenu);
 
         setupItem(R.id.itemPerfil, "Meu Perfil", "Dados Pessoais e de Contato",
                 v -> startActivity(new Intent(this, ProfileActivity.class)));

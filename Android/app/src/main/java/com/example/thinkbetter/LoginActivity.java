@@ -81,5 +81,8 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Tela de recuperação de senha", Toast.LENGTH_SHORT).show();
             }
         });
+        // Abrir tela de cadastro
+        findViewById(R.id.tvCriarConta).setOnClickListener(v ->
+                startActivity(new Intent(LoginActivity.this, CadastroUsuarioActivity.class)));
     }
 }

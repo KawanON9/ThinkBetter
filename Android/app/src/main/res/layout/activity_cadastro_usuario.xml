@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Tela: Cadastro de Usuário
+    Projeto: Gestão de Psicólogos
+    Recursos usados: res/values/colors.xml, res/values/strings_cadastro.xml
+                     res/drawable/bg_*.xml
+    Dependência: androidx.appcompat (SwitchCompat)
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_screen"
+    android:importantForAutofill="noExcludeDescendants"
+    android:orientation="vertical"
+    tools:context=".ui.cadastro.CadastroUsuarioActivity"
+    android:id="@+id/rootCadastro">
+
+    <!-- ===== Barra superior (menu + avatar) ===== -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/white"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <ImageButton
+            android:id="@+id/btnMenu"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_icon_circle"
+            android:contentDescription="@string/cd_menu"
+            android:padding="8dp"
+            android:src="@android:drawable/ic_menu_sort_by_size"
+            app:tint="@color/primary" />
+
+        <TextView
+            android:id="@+id/txtAvatar"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_avatar"
+            android:gravity="center"
+            android:text="DR"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/border_soft" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
+
+            <!-- Voltar -->
+            <TextView
+                android:id="@+id/btnVoltar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
+                android:text="@string/voltar"
+                android:textColor="@color/primary"
+                android:textSize="13sp" />
+
+            <!-- Título -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="serif"
+                android:text="@string/titulo_cadastro"
+                android:textColor="@color/text_title"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/subtitulo_cadastro"
+                android:textColor="@color/text_accent"
+                android:textSize="13sp" />
+
+            <!-- ===== Card: Dados pessoais ===== -->
+            <TextView
+                style="@style/CadastroSectionLabel"
+                android:text="@string/secao_dados_pessoais" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/CadastroFieldLabel"
+                            android:layout_marginTop="0dp"
+                            android:text="@string/label_nome" />
+
+                        <EditText
+                            android:id="@+id/edtNome"
+                            style="@style/CadastroInput"
+                            android:autofillHints="givenName"
+                            android:hint="@string/hint_nome"
+                            android:inputType="textCapWords|textNoSuggestions"
+                            android:maxLength="16"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/CadastroFieldLabel"
+                            android:layout_marginTop="0dp"
+                            android:text="@string/label_sobrenome" />
+
+                        <EditText
+                            android:id="@+id/edtSobrenome"
+                            style="@style/CadastroInput"
+                            android:autofillHints="familyName"
+                            android:hint="@string/hint_sobrenome"
+                            android:inputType="textPersonName|textCapWords" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/CadastroFieldLabel"
+                    android:text="@string/label_email" />
+
+                <EditText
+                    android:id="@+id/edtEmail"
+                    style="@style/CadastroInput"
+                    android:autofillHints="emailAddress"
+                    android:hint="@string/hint_email"
+                    android:inputType="textEmailAddress" />
+
+                <TextView
+                    style="@style/CadastroFieldLabel"
+                    android:text="@string/label_telefone" />
+
+                <EditText
+                    android:id="@+id/edtTelefone"
+                    style="@style/CadastroInput"
+                    android:autofillHints="phoneNumber"
+                    android:hint="@string/hint_telefone"
+                    android:inputType="phone"
+                    android:maxLength="16" />
+            </LinearLayout>
+
+            <!-- ===== Card: Endereço ===== -->
+            <TextView
+                style="@style/CadastroSectionLabel"
+                android:text="@string/secao_endereco" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    style="@style/CadastroFieldLabel"
+                    android:layout_marginTop="0dp"
+                    android:text="@string/label_cep" />
+
+                <EditText
+                    android:id="@+id/edtCep"
+                    style="@style/CadastroInput"
+                    android:autofillHints="postalCode"
+                    android:hint="@string/hint_cep"
+                    android:inputType="number"
+                    android:maxLength="9" />
+
+                <TextView
+                    style="@style/CadastroFieldLabel"
+                    android:text="@string/label_endereco" />
+
+                <EditText
+                    android:id="@+id/edtEndereco"
+                    style="@style/CadastroInput"
+                    android:autofillHints="postalAddress"
+                    android:hint="@string/hint_endereco"
+                    android:inputType="textPostalAddress|textCapWords|textNoSuggestions" />
+
+                <TextView
+                    style="@style/CadastroFieldLabel"
+                    android:text="@string/label_complemento" />
+
+                <EditText
+                    android:id="@+id/edtComplemento"
+                    style="@style/CadastroInput"
+                    android:hint="@string/hint_complemento"
+                    android:importantForAutofill="no"
+                    android:inputType="textCapSentences|textNoSuggestions" />
+            </LinearLayout>
+
+            <!-- ===== Card: Plano de Saúde (flag) ===== -->
+            <LinearLayout
+                android:id="@+id/cardPlanoSaude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:paddingStart="14dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_plano_saude"
+                            android:textColor="@color/text_title"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/desc_plano_saude"
+                            android:textColor="@color/text_accent"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchPlanoSaude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:contentDescription="@string/label_plano_saude"
+                        app:thumbTint="@color/white"
+                        app:trackTint="@color/switch_track" />
+                </LinearLayout>
+
+                <!-- Campo exibido somente quando o switch está ativado -->
+                <LinearLayout
+                    android:id="@+id/containerPlanoSaude"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        style="@style/CadastroFieldLabel"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/label_nome_plano" />
+
+                    <EditText
+                        android:id="@+id/edtPlanoSaude"
+                        style="@style/CadastroInput"
+                        android:hint="@string/hint_nome_plano"
+                        android:importantForAutofill="no"
+                        android:inputType="textCapWords|textNoSuggestions" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Botão principal -->
+            <Button
+                android:id="@+id/btnCadastrar"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_button_primary"
+                android:stateListAnimator="@null"
+                android:text="@string/btn_cadastrar"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Rodapé LGPD -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:text="@string/rodape_lgpd"
+                android:textColor="@color/text_muted"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
