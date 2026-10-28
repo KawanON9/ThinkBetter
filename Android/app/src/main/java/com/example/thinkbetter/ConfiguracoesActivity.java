@@ -1,81 +1,47 @@
 package com.example.thinkbetter;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.content.Intent;
+import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
-import androidx.appcompat.widget.SwitchCompat;
-
-public class ConfiguracoesActivity extends MenuJava {
-    private LinearLayout cardMeuPerfil, cardSeguranca, cardNotificacoes, cardSobre, cardSair;
-    private SwitchCompat switchModoEscuro;
+public class ConfiguracoesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_configuracoes);
+        setContentView(R.layout.activity_main);
 
-        // Ativa o botão de abrir o menu lateral (hambúrguer)
-        setupMenuPsicologoButton(R.id.btnMenu);
+        setupItem(R.id.itemPerfil, "Meu Perfil", "Dados Pessoais e de Contato",
+                v -> startActivity(new Intent(this, ProfileActivity.class)));
+        setupItem(R.id.itemSeguranca, "Segurança e Privacidade", "Senha, 2FA e Sessões",
+                v -> startActivity(new Intent(this, SecurityActivity.class)));
+        setupItem(R.id.itemNotificacoes, "Notificações", "Lembretes, Confirmações e Alertas",
+                v -> startActivity(new Intent(this, NotificationsActivity.class)));
+        setupItem(R.id.itemSobre, "Sobre o app", "Versão, Termos e Privacidade",
+                v -> startActivity(new Intent(this, AboutActivity.class)));
 
-        cardMeuPerfil = findViewById(R.id.cardMeuPerfil);
-        cardSeguranca = findViewById(R.id.cardSeguranca);
-        cardNotificacoes = findViewById(R.id.cardNotificacoes);
-        cardSobre = findViewById(R.id.cardSobre);
-        cardSair = findViewById(R.id.cardSair);
-        switchModoEscuro = findViewById(R.id.switchModoEscuro);
+        MaterialSwitch switchDark = findViewById(R.id.switchDark);
+        switchDark.setOnCheckedChangeListener((button, checked) ->
+                AppCompatDelegate.setDefaultNightMode(
+                        checked ? AppCompatDelegate.MODE_NIGHT_YES
+                                : AppCompatDelegate.MODE_NIGHT_NO));
 
-        // Eventos de clique nas opções
-        cardMeuPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ConfiguracoesActivity.this, PerfilActivity.class);
-                startActivity(intent);
-            }
-        });
+        findViewById(R.id.itemSair).setOnClickListener(v -> toast("Sair"));
+    }
 
-        cardSeguranca.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ConfiguracoesActivity.this, "Abrindo Segurança e Privacidade...", Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void setupItem(int itemId, String title, String subtitle, View.OnClickListener click) {
+        View item = findViewById(itemId);
+        ((TextView) item.findViewById(R.id.txtTitle)).setText(title);
+        ((TextView) item.findViewById(R.id.txtSubtitle)).setText(subtitle);
+        item.setOnClickListener(click);
+    }
 
-        switchModoEscuro.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                Toast.makeText(ConfiguracoesActivity.this, "Modo Escuro ativado", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(ConfiguracoesActivity.this, "Modo Escuro desativado", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        cardNotificacoes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ConfiguracoesActivity.this, NotificacoesActivity.class);
-                startActivity(intent);
-                Toast.makeText(ConfiguracoesActivity.this, "Abrindo Notificações...", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        cardSobre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ConfiguracoesActivity.this, SobreActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        cardSair.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ConfiguracoesActivity.this, LoginActivity.class);
-                startActivity(intent);
-                Toast.makeText(ConfiguracoesActivity.this, "Saindo do sistema...", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+    private void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

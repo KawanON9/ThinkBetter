@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ThinkBetter">
         <activity
-            android:name=".LoginActivity"
+            android:name=".AgendaActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -34,7 +34,7 @@
         <activity android:name=".PerfilActivity"/>
         <activity android:name=".SobreActivity"/>
 
-        <activity android:name=".AgendaActivity"/>
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".ProntuarioActivity"/>
         <activity android:name=".EmissaoEtapa2Activity"/>
         <activity android:name=".EmissaoEtapa3Activity"/>
@@ -45,7 +45,11 @@
         <activity android:name=".AgendarConsultaActivity"/>
         <activity android:name=".MeusDocumentosActivity"/>
 
-
+        <!--Congigurações-->
+        <activity android:name=".NotificationsActivity"/>
+        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".SecurityActivity"/>
+        <activity android:name=".BaseActivity"/>
     </application>
 
 </manifest>

@@ -21,8 +21,20 @@ public class DiaCalendario {
     }
 
     public int getDiaDoMes() { return diaDoMes; }
+    public int getMes() { return mes; }
+    public int getAno() { return ano; }
     public boolean isEDoMesAtual() { return eDoMesAtual; }
     public boolean isSelecionado() { return selecionado; }
     public void setSelecionado(boolean selecionado) { this.selecionado = selecionado; }
     public List<Atendimento> getAtendimentos() { return atendimentos; }
+
+    // --- Funções Auxiliares de Mês e Calendário ---
+
+    public static int getAnoAtual() {
+        return Calendar.getInstance().get(Calendar.YEAR);
+    }
+
+    public static int getMesAtual() {
+        return Calendar.getInstance().get(Calendar.MONTH);
+    }
 }

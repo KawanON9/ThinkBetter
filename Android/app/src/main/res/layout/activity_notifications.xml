@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <include layout="@layout/layout_header"/>
+
+        <TextView style="@style/SectionLabel" android:text="Tipos de notificação"/>
+        <include android:id="@+id/itemLembretes" layout="@layout/item_switch"/>
+        <include android:id="@+id/itemConfirmacoes" layout="@layout/item_switch"/>
+        <include android:id="@+id/itemAlertas" layout="@layout/item_switch"/>
+
+        <TextView style="@style/SectionLabel" android:text="Preferências"/>
+        <include android:id="@+id/itemSilencio" layout="@layout/item_switch"/>
+        <include android:id="@+id/itemSom" layout="@layout/item_switch"/>
+    </LinearLayout>
+</ScrollView>
