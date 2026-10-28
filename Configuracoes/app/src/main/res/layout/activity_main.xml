@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Topo: menu + avatar -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <ImageButton
+                android:id="@+id/btnMenu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_sort_by_size"
+                android:contentDescription="Menu"/>
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/bg_avatar"
+                android:gravity="center"
+                android:text="DR"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Configurações"
+            android:textColor="@color/text_primary"
+            android:textSize="26sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Dr. Rafael Costa · Psicólogo"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"/>
+
+        <!-- Seção Conta -->
+        <TextView style="@style/SectionLabel" android:text="Conta"/>
+        <include android:id="@+id/itemPerfil" layout="@layout/item_setting"/>
+        <include android:id="@+id/itemSeguranca" layout="@layout/item_setting"/>
+
+        <!-- Seção Preferências -->
+        <TextView style="@style/SectionLabel" android:text="Preferências"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/border"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Modo Escuro"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"/>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <include android:id="@+id/itemNotificacoes" layout="@layout/item_setting"/>
+
+        <!-- Seção Suporte -->
+        <TextView style="@style/SectionLabel" android:text="Suporte"/>
+        <include android:id="@+id/itemSobre" layout="@layout/item_setting"/>
+
+        <!-- Sair -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/itemSair"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/border"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="➥  Sair do Sistema"
+                android:textColor="@color/danger"
+                android:textSize="15sp"/>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>

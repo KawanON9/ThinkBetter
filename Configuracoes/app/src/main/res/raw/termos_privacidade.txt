@@ -1,0 +1,151 @@
+TERMOS DE USO E POLÍTICA DE PRIVACIDADE
+
+"Documento de caráter ilustrativo, elaborado para fins acadêmicos."
+
+Última atualização: 27/10/2026
+
+PARTE 1 - TERMOS DE USO
+
+1. Quem somos
+Este aplicativo ThinkBetter é oferecido por Concavo Serviços de Psicologia Ltda, inscrito no CNPJ 48.019.941/0001-01, com sede em Rua Wandenkolk, 711. Telefone para contato: (19) 98145-4828.
+
+2. Aceitação dos termos
+Ao criar uma conta ou usar o App, você declara que leu, entendeu e concorda com estes Termos e com a Política de Privacidade. Se não concordar, não utilize o App.
+
+3. O que o App faz
+O App é uma ferramenta de apoio à organização do trabalho de profissionais de psicologia, permitindo gerenciar agenda, lembretes, confirmações de consultas e informações de contato de pacientes. O App não presta atendimento psicológico, não substitui o julgamento clínico do profissional e não oferece diagnóstico ou tratamento.
+
+4. Cadastro e conta
+4.1. Para usar o App, você deve ter 18 anos ou mais e capacidade legal para contratar.
+4.2. As informações fornecidas no cadastro devem ser verdadeiras, completas e mantidas atualizadas.
+4.3. Usuários profissionais devem estar regularmente inscritos no Conselho Regional de Psicologia e são responsáveis por manter essa regularidade.
+4.4. Você é responsável por manter a confidencialidade da sua senha e por toda atividade realizada na sua conta. Avise-nos imediatamente em caso de uso não autorizado.
+
+5. Responsabilidades do usuário
+Ao usar o App, você se compromete a:
+a) usar o App apenas para fins lícitos e profissionais;
+b) respeitar o sigilo profissional e o Código de Ética Profissional do Psicólogo;
+c) inserir dados de pacientes somente quando houver base legal para isso, como o consentimento do paciente ou a execução do serviço contratado;
+d) não tentar acessar áreas restritas, contas de terceiros ou o código-fonte do App;
+e) não inserir vírus, códigos maliciosos ou conteúdo que prejudique o funcionamento do App;
+f) não copiar, revender ou distribuir o App sem autorização.
+
+6. Papéis no tratamento de dados de pacientes
+Em relação aos dados de pacientes inseridos no App, o profissional usuário atua como controlador dos dados, sendo responsável por definir a finalidade do tratamento e por obter as autorizações necessárias. Nós atuamos como operador, tratando esses dados apenas conforme as instruções do profissional e para o funcionamento do App.
+
+7. Propriedade intelectual
+O App, sua marca, design, textos e código são de nossa propriedade ou licenciados a nós, protegidos pela legislação brasileira. Concedemos a você uma licença pessoal, limitada, revogável e não exclusiva para usar o App. Os dados que você insere continuam sendo seus.
+
+8. Disponibilidade e alterações do App
+Buscamos manter o App disponível, mas não garantimos funcionamento ininterrupto ou livre de falhas. Podemos realizar manutenções, atualizações e alterações de funcionalidades, procurando avisar com antecedência quando possível.
+
+9. Limitação de responsabilidade
+Na máxima extensão permitida pela lei, não nos responsabilizamos por:
+a) decisões clínicas, éticas ou profissionais tomadas pelo usuário;
+b) danos decorrentes do uso indevido do App ou do compartilhamento de senha;
+c) indisponibilidade causada por falhas de internet, do aparelho ou de serviços de terceiros;
+d) conteúdo inserido pelos usuários.
+Nada nestes Termos exclui responsabilidades que não possam ser afastadas por lei, inclusive as previstas no Código de Defesa do Consumidor.
+
+10. Suspensão e encerramento
+Podemos suspender ou encerrar contas que violem estes Termos ou a legislação, mediante aviso quando possível. Você pode encerrar sua conta a qualquer momento em Configurações > Segurança e Privacidade > Excluir minha conta.
+
+11. Alterações destes Termos
+Podemos atualizar estes Termos periodicamente. Mudanças relevantes serão comunicadas pelo App ou por e-mail. O uso continuado após a atualização indica concordância com a nova versão.
+
+12. Lei aplicável e foro
+Estes Termos são regidos pelas leis da República Federativa do Brasil. Fica eleito o foro da comarca de São Paulo/SP para resolver controvérsias, ressalvado o foro do domicílio do consumidor, quando aplicável.
+
+
+PARTE 2 - POLÍTICA DE PRIVACIDADE
+
+1. Compromisso com a sua privacidade
+Esta Política explica como coletamos, usamos, armazenamos e protegemos dados pessoais, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 - LGPD).
+
+2. Dados que coletamos
+2.1. Dados do usuário profissional:
+- nome completo, e-mail e telefone;
+- foto de perfil (opcional);
+- número de registro profissional (CRP), se solicitado;
+- credenciais de acesso (a senha é armazenada de forma criptografada);
+- preferências do App (notificações, biometria, modo escuro).
+
+2.2. Dados de pacientes inseridos pelo profissional:
+- nome, telefone e e-mail;
+- datas e horários de consultas, status de confirmação ou cancelamento;
+- outras informações que o profissional decidir registrar.
+Parte desses dados pode ser considerada dado pessoal sensível (dado referente à saúde), com proteção reforçada pela LGPD.
+
+2.3. Dados técnicos:
+- modelo do aparelho, sistema operacional e versão do App;
+- registros de acesso (data, hora e endereço IP);
+- relatórios de erro e desempenho.
+
+3. Para que usamos os dados
+- criar e manter sua conta;
+- permitir o funcionamento da agenda, dos lembretes e das confirmações;
+- enviar notificações que você ativou;
+- garantir a segurança da conta e prevenir fraudes;
+- cumprir obrigações legais e regulatórias;
+- melhorar o App, com dados técnicos e, sempre que possível, anonimizados;
+- responder a solicitações de suporte.
+Não vendemos dados pessoais e não os usamos para publicidade.
+
+4. Bases legais
+Tratamos dados com base em: execução de contrato (art. 7º, V, LGPD); cumprimento de obrigação legal (art. 7º, II); legítimo interesse, em segurança e melhoria do App (art. 7º, IX); consentimento, quando aplicável (art. 7º, I); e, para dados sensíveis, as hipóteses do art. 11, como consentimento específico, tutela da saúde por profissional da área e garantia da prevenção à fraude e à segurança do titular.
+
+5. Com quem compartilhamos
+Compartilhamos dados apenas quando necessário, com:
+- autoridades públicas, mediante ordem legal ou para cumprir obrigação legal.
+Esses parceiros só podem usar os dados para prestar o serviço contratado. Se houver transferência internacional de dados, ela será feita com as garantias exigidas pela LGPD.
+
+6. Segurança
+Adotamos medidas técnicas e administrativas para proteger os dados, como:
+- criptografia em trânsito e em repouso;
+- controle de acesso por autenticação, com opção de dois fatores e biometria;
+- bloqueio automático por inatividade;
+- registro de acessos;
+- limitação do acesso interno aos dados.
+Nenhum sistema é totalmente invulnerável. Em caso de incidente que possa causar risco ou dano relevante, comunicaremos os titulares afetados e a Autoridade Nacional de Proteção de Dados (ANPD), conforme a lei.
+
+7. Por quanto tempo guardamos os dados
+Mantemos os dados enquanto a conta estiver ativa. Após a exclusão da conta, eliminamos ou anonimizamos os dados em até 30 dias, exceto os que precisarmos manter para cumprir obrigação legal, exercer direitos em processos ou prevenir fraudes. Observação: prontuários e registros profissionais podem ter prazos mínimos de guarda definidos pelas normas do Conselho Federal de Psicologia, e a responsabilidade por cumpri-los é do profissional.
+
+8. Seus direitos como titular
+Conforme o art. 18 da LGPD, você pode solicitar:
+- confirmação de que tratamos seus dados;
+- acesso aos dados;
+- correção de dados incompletos, inexatos ou desatualizados;
+- anonimização, bloqueio ou eliminação de dados desnecessários ou tratados em desconformidade;
+- portabilidade dos dados;
+- eliminação dos dados tratados com consentimento;
+- informação sobre com quem compartilhamos os dados;
+- informação sobre a possibilidade de não consentir e suas consequências;
+- revogação do consentimento a qualquer momento.
+Parte desses direitos pode ser exercida diretamente no App (editar perfil, exportar dados, excluir conta). Para os demais, fale com nosso Encarregado de Proteção de Dados (contato abaixo). Responderemos no prazo previsto em lei.
+
+9. Pacientes
+Se você é paciente e seus dados foram inseridos no App por um profissional, o responsável principal pelo tratamento é o profissional que o atende. Solicite acesso, correção ou exclusão diretamente a ele. Se preferir, também pode nos contatar, e orientaremos o encaminhamento da sua solicitação.
+
+10. Permissões do aparelho
+O App pode solicitar:
+- notificações: para lembretes, confirmações e alertas;
+- fotos/galeria: para escolher a foto de perfil;
+- biometria: para desbloqueio, se você ativar essa opção.
+Você pode revogar qualquer permissão nas configurações do seu aparelho. Algumas funções podem deixar de funcionar.
+
+11. Crianças e adolescentes
+O App é destinado a profissionais maiores de 18 anos. Dados de pacientes menores de idade só devem ser inseridos pelo profissional com o consentimento específico de ao menos um dos pais ou do responsável legal, conforme o art. 14 da LGPD.
+
+12. Cookies e tecnologias semelhantes
+O App não utiliza cookies de publicidade. Podemos usar identificadores técnicos e ferramentas de análise de falhas para garantir o funcionamento e a segurança.
+
+13. Alterações desta Política
+Esta Política pode ser atualizada. Mudanças relevantes serão informadas pelo App ou por e-mail, e a data da última atualização estará sempre no topo.
+
+14. Contato e Encarregado de Dados (DPO)
+Dúvidas, solicitações ou reclamações sobre privacidade:
+Encarregado de Proteção de Dados: Nichols Jasper
+E-mail: thinkbetter@concavo.com
+Endereço: Rua Wandenkolk, 711
+Você também pode apresentar reclamação à Autoridade Nacional de Proteção de Dados (ANPD) em www.gov.br/anpd.

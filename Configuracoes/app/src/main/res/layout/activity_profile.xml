@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <include layout="@layout/layout_header"/>
+
+        <FrameLayout
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar_placeholder"
+                app:shapeAppearanceOverlay="@style/CircleImage"/>
+
+            <TextView
+                android:id="@+id/txtIniciais"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="DR"
+                android:textColor="@android:color/white"
+                android:textSize="48sp"
+                android:textStyle="bold"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/txtEditPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/bg_edit_photo"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="Editar Foto"
+            android:textColor="@color/teal"
+            android:textSize="12sp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Nome Completo"
+            app:boxCornerRadiusBottomEnd="14dp"
+            app:boxCornerRadiusBottomStart="14dp"
+            app:boxCornerRadiusTopEnd="14dp"
+            app:boxCornerRadiusTopStart="14dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName|textCapWords"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmail"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="E-mail"
+            app:boxCornerRadiusBottomEnd="14dp"
+            app:boxCornerRadiusBottomStart="14dp"
+            app:boxCornerRadiusTopEnd="14dp"
+            app:boxCornerRadiusTopStart="14dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="Telefone"
+            app:boxCornerRadiusBottomEnd="14dp"
+            app:boxCornerRadiusBottomStart="14dp"
+            app:boxCornerRadiusTopEnd="14dp"
+            app:boxCornerRadiusTopStart="14dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtTelefone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSalvar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:backgroundTint="@color/teal"
+            android:text="Salvar Alterações"
+            app:cornerRadius="16dp"/>
+    </LinearLayout>
+</ScrollView>
