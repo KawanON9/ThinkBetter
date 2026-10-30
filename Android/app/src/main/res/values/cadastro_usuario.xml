@@ -15,6 +15,8 @@
     <color name="text_muted">#8AA39E</color>
     <color name="text_hint">#A9BDB9</color>
     <color name="switch_track">#9FDCCF</color>
+    <color name="btn_inativo_fundo">#D9EFEA</color>
+    <color name="btn_inativo_texto">#7FA8A0</color>
 
     <!-- ===== Textos ===== -->
     <string name="cd_menu">Abrir menu</string>
@@ -41,13 +43,32 @@
     <string name="label_complemento">COMPLEMENTO (OPCIONAL)</string>
     <string name="hint_complemento">Apto, bloco, sala…</string>
 
+    <!--Campo de senhas-->
+    <string name="secao_senha">SENHA DE ACESSO</string>
+    <string name="label_senha">SENHA</string>
+    <string name="hint_senha">Mínimo de 8 caracteres</string>
+    <string name="regra_senha">Crie sua senha com ao menos 8 caracteres.</string>
+    <string name="label_confirmar_senha">CONFIRME SUA SENHA</string>
+    <string name="hint_confirmar_senha">Digite a senha novamente</string>
+    <string name="mostrar">Mostrar</string>
+    <string name="ocultar">Ocultar</string>
+
     <string name="label_plano_saude">Plano de Saúde</string>
     <string name="desc_plano_saude">Ative se possuir convênio</string>
-    <string name="label_nome_plano">NOME DO PLANO / Nº DA CARTEIRINHA</string>
-    <string name="hint_nome_plano">Ex: Unimed — 0000 0000 0000</string>
+    <string name="label_plano">PLANO</string>
+
+    <string name="label_carteirinha">Nº DA CARTEIRINHA</string>
+    <string name="hint_carteirinha">Ex: 0000 0000 0000 0000</string>
+
+    <string-array name="planos_saude">
+        <item>Selecione o plano</item>
+        <item>Amil</item>
+        <item>Bradesco Saúde</item>
+        <item>Prevent Senior</item>
+        <item>Unimed</item>
+    </string-array>
 
     <string name="btn_cadastrar">Cadastrar</string>
-    <string name="rodape_lgpd">🔒 Seus dados são protegidos pela LGPD</string>
 
     <!-- ===== Estilos ===== -->
     <style name="CadastroSectionLabel">

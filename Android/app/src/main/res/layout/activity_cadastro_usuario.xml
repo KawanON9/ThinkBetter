@@ -232,6 +232,70 @@
                     android:inputType="textCapSentences|textNoSuggestions" />
             </LinearLayout>
 
+            <!-- ===== Card: Senha de acesso ===== -->
+            <TextView
+                style="@style/CadastroSectionLabel"
+                android:text="@string/secao_senha" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <!-- Campo Senha -->
+                <TextView
+                    style="@style/CadastroFieldLabel"
+                    android:layout_marginTop="0dp"
+                    android:text="@string/label_senha" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edtSenha"
+                        style="@style/CadastroInput"
+                        android:hint="@string/hint_senha"
+                        android:inputType="textPassword"
+                        android:paddingEnd="80dp" />
+
+                    <TextView
+                        android:id="@+id/btnMostrarSenha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end|center_vertical"
+                        android:gravity="center"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="14dp"
+                        android:text="@string/mostrar"
+                        android:textColor="@color/primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <!-- Dica da regra -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/regra_senha"
+                    android:textColor="@color/text_muted"
+                    android:textSize="11sp" />
+
+                <!-- Campo Confirme sua senha -->
+                <TextView
+                    style="@style/CadastroFieldLabel"
+                    android:text="@string/label_confirmar_senha" />
+
+                <EditText
+                    android:id="@+id/edtConfirmarSenha"
+                    style="@style/CadastroInput"
+                    android:hint="@string/hint_confirmar_senha"
+                    android:inputType="textPassword" />
+            </LinearLayout>
+
             <!-- ===== Card: Plano de Saúde (flag) ===== -->
             <LinearLayout
                 android:id="@+id/cardPlanoSaude"
@@ -293,43 +357,53 @@
                     android:visibility="gone"
                     tools:visibility="visible">
 
+                    <!-- Menu de seleção do plano -->
                     <TextView
                         style="@style/CadastroFieldLabel"
                         android:layout_marginTop="4dp"
-                        android:text="@string/label_nome_plano" />
+                        android:text="@string/label_plano" />
+
+                    <Spinner
+                        android:id="@+id/spinnerPlanoSaude"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:background="@drawable/bg_spinner"
+                        android:entries="@array/planos_saude"
+                        android:popupBackground="@drawable/bg_card"
+                        android:spinnerMode="dropdown" />
+
+                    <!-- Número da carteirinha -->
+                    <TextView
+                        style="@style/CadastroFieldLabel"
+                        android:text="@string/label_carteirinha" />
 
                     <EditText
-                        android:id="@+id/edtPlanoSaude"
+                        android:id="@+id/edtCarteirinha"
                         style="@style/CadastroInput"
-                        android:hint="@string/hint_nome_plano"
+                        android:digits="0123456789 "
+                        android:hint="@string/hint_carteirinha"
                         android:importantForAutofill="no"
-                        android:inputType="textCapWords|textNoSuggestions" />
+                        android:inputType="number"
+                        android:maxLength="25" />
                 </LinearLayout>
             </LinearLayout>
 
+            <!-- Botão principal -->
             <!-- Botão principal -->
             <Button
                 android:id="@+id/btnCadastrar"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/bg_button_primary"
+                android:background="@drawable/bg_button_cadastrar"
                 android:stateListAnimator="@null"
                 android:text="@string/btn_cadastrar"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/txt_button_cadastrar"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
 
-            <!-- Rodapé LGPD -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:text="@string/rodape_lgpd"
-                android:textColor="@color/text_muted"
-                android:textSize="11sp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

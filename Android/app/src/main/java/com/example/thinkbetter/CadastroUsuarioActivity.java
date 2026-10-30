@@ -13,6 +13,12 @@ import android.widget.Toast;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.text.InputType;
+import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -25,9 +31,15 @@ import androidx.appcompat.widget.SwitchCompat;
 public class CadastroUsuarioActivity extends AppCompatActivity {
 
     private EditText edtNome, edtSobrenome, edtEmail, edtTelefone;
-    private EditText edtCep, edtEndereco, edtComplemento, edtPlanoSaude;
+    private EditText edtCep, edtEndereco, edtComplemento, edtCarteirinha;
+    private Spinner spinnerPlanoSaude;
+    private static final int SENHA_TAMANHO_MINIMO = 8;
+    private EditText edtSenha, edtConfirmarSenha;
+    private TextView btnMostrarSenha;
+    private boolean senhaVisivel = false;
     private SwitchCompat switchPlanoSaude;
     private LinearLayout containerPlanoSaude;
+    private View btnCadastrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +57,22 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
 
         edtNome = findViewById(R.id.edtNome);
         edtSobrenome = findViewById(R.id.edtSobrenome);
+
         edtEmail = findViewById(R.id.edtEmail);
         edtTelefone = findViewById(R.id.edtTelefone);
         edtCep = findViewById(R.id.edtCep);
         edtEndereco = findViewById(R.id.edtEndereco);
         edtComplemento = findViewById(R.id.edtComplemento);
-        edtPlanoSaude = findViewById(R.id.edtPlanoSaude);
+
+        edtSenha = findViewById(R.id.edtSenha);
+        edtConfirmarSenha = findViewById(R.id.edtConfirmarSenha);
+        btnMostrarSenha = findViewById(R.id.btnMostrarSenha);
+
+        spinnerPlanoSaude = findViewById(R.id.spinnerPlanoSaude);
+        edtCarteirinha = findViewById(R.id.edtCarteirinha);
         switchPlanoSaude = findViewById(R.id.switchPlanoSaude);
         containerPlanoSaude = findViewById(R.id.containerPlanoSaude);
+        btnCadastrar = findViewById(R.id.btnCadastrar);
 
         // Tela pública: sem menu lateral nem avatar
         findViewById(R.id.btnMenu).setVisibility(View.INVISIBLE);
@@ -61,23 +81,146 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         findViewById(R.id.btnVoltar).setOnClickListener(v -> finish());
 
         // Flag Plano de Saúde: mostra/esconde a caixa de texto
+        configurarMenuPlanos();
+
+        // Flag Plano de Saúde: mostra/esconde o menu de planos e a carteirinha
         switchPlanoSaude.setOnCheckedChangeListener((btn, ativo) -> {
             containerPlanoSaude.setVisibility(ativo ? View.VISIBLE : View.GONE);
-            if (ativo) {
-                edtPlanoSaude.requestFocus();
-            } else {
-                edtPlanoSaude.setText("");
-                edtPlanoSaude.setError(null);
+            if (!ativo) {
+                spinnerPlanoSaude.setSelection(0);  // volta para "Selecione o plano"
+                edtCarteirinha.setText("");
+                edtCarteirinha.setError(null);
             }
+            atualizarBotaoCadastrar();
         });
+
+            findViewById(R.id.btnCadastrar).setOnClickListener(v -> cadastrar());
+
+        // Mostrar / ocultar as duas senhas
+        btnMostrarSenha.setOnClickListener(v -> alternarVisibilidadeSenha());
 
         // Máscaras simples
         edtTelefone.addTextChangedListener(new MascaraWatcher(edtTelefone, true));
         edtCep.addTextChangedListener(new MascaraWatcher(edtCep, false));
 
-        findViewById(R.id.btnCadastrar).setOnClickListener(v -> cadastrar());
+        configurarBotaoCadastrar();
+            btnCadastrar.setOnClickListener(v -> cadastrar());
     }
 
+/**
+ * Faz o botão Cadastrar mudar de cor conforme o preenchimento:
+ * qualquer alteração nos campos obrigatórios recalcula o estado.
+ */
+private void configurarBotaoCadastrar() {
+    TextWatcher aoDigitar = new TextWatcher() {
+        @Override public void beforeTextChanged(CharSequence s, int a, int b, int c) { }
+        @Override public void onTextChanged(CharSequence s, int a, int b, int c) { }
+        @Override public void afterTextChanged(Editable s) { atualizarBotaoCadastrar(); }
+    };
+    EditText[] obrigatorios = {edtNome, edtSobrenome, edtEmail, edtTelefone, edtCep,
+            edtEndereco, edtSenha, edtConfirmarSenha, edtCarteirinha};
+    for (EditText campo : obrigatorios) {
+        campo.addTextChangedListener(aoDigitar);
+    }
+
+    spinnerPlanoSaude.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            atualizarBotaoCadastrar();
+        }
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) { }
+    });
+
+    atualizarBotaoCadastrar();
+}
+
+    /**
+     * Preenche o menu com as opções de res/values (array "planos_saude").
+     * O item 0 ("Selecione o plano") aparece em cinza e não pode ser escolhido.
+     */
+    private void configurarMenuPlanos() {
+        String[] planos = getResources().getStringArray(R.array.planos_saude);
+        int corTexto = getResources().getColor(R.color.text_title, getTheme());
+        int corDica = getResources().getColor(R.color.text_hint, getTheme());
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, R.layout.item_spinner_plano, planos) {
+
+            @Override
+            public boolean isEnabled(int position) {
+                return position != 0;              // impede escolher o texto de orientação
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                TextView tv = (TextView) super.getView(position, convertView, parent);
+                tv.setTextColor(position == 0 ? corDica : corTexto);
+                return tv;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
+                tv.setTextColor(position == 0 ? corDica : corTexto);
+                return tv;
+            }
+        };
+        adapter.setDropDownViewResource(R.layout.item_spinner_plano_dropdown);
+        spinnerPlanoSaude.setAdapter(adapter);
+    }
+
+    /** activated = true troca o fundo e o texto do botão (ver bg_button_cadastrar.xml). */
+    private void atualizarBotaoCadastrar() {
+        btnCadastrar.setActivated(formularioCompleto());
+    }
+
+/**
+ * Mesmas regras do cadastrar(), mas sem mostrar erros:
+ * só responde se o formulário já pode ser enviado.
+ */
+private boolean formularioCompleto() {
+    String senha = edtSenha.getText().toString();
+    boolean dadosOk = !texto(edtNome).isEmpty()
+            && !texto(edtSobrenome).isEmpty()
+            && Patterns.EMAIL_ADDRESS.matcher(texto(edtEmail)).matches()
+            && soDigitos(texto(edtTelefone)).length() >= 10
+            && soDigitos(texto(edtCep)).length() == 8
+            && !texto(edtEndereco).isEmpty()
+            && validarSenha(senha) == null
+            && senha.equals(edtConfirmarSenha.getText().toString());
+    if (!dadosOk) return false;
+
+    if (switchPlanoSaude.isChecked()) {
+        return spinnerPlanoSaude.getSelectedItemPosition() > 0
+                && !soDigitos(texto(edtCarteirinha)).isEmpty();
+    }
+    return true;
+}
+
+
+    //Lógica do botão "Mostrar a senha"
+    private void alternarVisibilidadeSenha() {
+        senhaVisivel = !senhaVisivel;
+        int tipo = InputType.TYPE_CLASS_TEXT | (senhaVisivel
+                ? InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                : InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        for (EditText campo : new EditText[]{edtSenha, edtConfirmarSenha}) {
+            campo.setInputType(tipo);
+            campo.setSelection(campo.getText().length()); // mantém o cursor no fim
+        }
+        btnMostrarSenha.setText(senhaVisivel ? R.string.ocultar : R.string.mostrar);
+    }
+
+    /** Erro se a senha for inválida */
+    private static String validarSenha(String senha) {
+        if (senha.isEmpty()) return "Informe uma senha";
+        if (senha.length() < SENHA_TAMANHO_MINIMO)
+            return "A senha deve ter pelo menos " + SENHA_TAMANHO_MINIMO + " caracteres";
+        return null;
+    }
+
+    // Aqui vai rolar as bruxarias do banco de dados
     private void cadastrar() {
         String nome = texto(edtNome);
         String sobrenome = texto(edtSobrenome);
@@ -86,8 +229,12 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         String cep = texto(edtCep);
         String endereco = texto(edtEndereco);
         String complemento = texto(edtComplemento);
+        String senha = edtSenha.getText().toString();            // sem trim: espaços contam
+        String confirmacao = edtConfirmarSenha.getText().toString();
         boolean temPlano = switchPlanoSaude.isChecked();
-        String plano = texto(edtPlanoSaude);
+        int posicaoPlano = spinnerPlanoSaude.getSelectedItemPosition();
+        String plano = posicaoPlano > 0 ? spinnerPlanoSaude.getSelectedItem().toString() : "";
+        String carteirinha = soDigitos(texto(edtCarteirinha));
 
         boolean ok = true;
         if (nome.isEmpty()) { edtNome.setError("Informe o nome"); ok = false; }
@@ -96,7 +243,20 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         if (soDigitos(telefone).length() < 10) { edtTelefone.setError("Telefone com DDD inválido"); ok = false; }
         if (soDigitos(cep).length() != 8) { edtCep.setError("CEP deve ter 8 dígitos"); ok = false; }
         if (endereco.isEmpty()) { edtEndereco.setError("Informe o endereço"); ok = false; }
-        if (temPlano && plano.isEmpty()) { edtPlanoSaude.setError("Informe o plano de saúde"); ok = false; }
+
+        String erroSenha = validarSenha(senha);
+        if (erroSenha != null) { edtSenha.setError(erroSenha); ok = false; }
+        if (!senha.equals(confirmacao)) { edtConfirmarSenha.setError("As senhas não coincidem"); ok = false; }
+
+        if (temPlano) {
+            if (posicaoPlano == 0) {
+                // Spinner não tem setError: o erro vai no texto exibido dentro dele
+                TextView selecionado = (TextView) spinnerPlanoSaude.getSelectedView();
+                if (selecionado != null) selecionado.setError("Selecione o plano");
+                ok = false;
+            }
+            if (carteirinha.isEmpty()) { edtCarteirinha.setError("Informe o número da carteirinha"); ok = false; }
+        }
         if (!ok) return;
 
         // Mesmo SharedPreferences usado pela BaseActivity/ProfileActivity,
@@ -111,7 +271,12 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
                 .putString("complemento", complemento)
                 .putBoolean("temPlanoSaude", temPlano)
                 .putString("planoSaude", temPlano ? plano : "")
+                .putString("carteirinha", temPlano ? carteirinha : "")
                 .apply();
+
+        // Limpa as senhas da tela após cadastro
+        edtSenha.setText("");
+        edtConfirmarSenha.setText("");
 
         Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, LoginActivity.class));

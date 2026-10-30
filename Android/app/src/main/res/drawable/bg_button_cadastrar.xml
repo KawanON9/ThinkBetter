@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Fundo do botão Cadastrar.
+    - activated = true  → todos os campos obrigatórios preenchidos: gradiente verde-azulado
+    - activated = false → formulário incompleto: verde bem claro
+    O Java chama btnCadastrar.setActivated(...) a cada alteração.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="200"
+    android:exitFadeDuration="200">
+
+    <!-- Completo + pressionado -->
+    <item android:state_activated="true" android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="16dp" />
+            <solid android:color="@color/primary" />
+        </shape>
+    </item>
+
+    <!-- Completo -->
+    <item android:state_activated="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="16dp" />
+            <gradient
+                android:angle="0"
+                android:endColor="@color/primary_light"
+                android:startColor="@color/primary" />
+        </shape>
+    </item>
+
+    <!-- Incompleto -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="16dp" />
+            <solid android:color="@color/btn_inativo_fundo" />
+        </shape>
+    </item>
+</selector>
