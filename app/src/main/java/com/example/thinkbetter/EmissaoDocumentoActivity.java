@@ -56,15 +56,20 @@ public class EmissaoDocumentoActivity extends MenuJava {
 
             case 2:
                 viewEtapa = inflater.inflate(R.layout.etapa_2_documento, containerEtapas, false);
-                // Configurar clique no tipo de documento (Ex: Atestado)
+                
+                // Clique para Atestado
                 viewEtapa.findViewById(R.id.cardAtestado).setOnClickListener(v -> {
                     tipoDocumentoSelecionado = "Atestado";
                     irParaEtapa(3);
                 });
+
+                // Clique para Declaração
                 viewEtapa.findViewById(R.id.cardDeclaracao).setOnClickListener(v -> {
                     tipoDocumentoSelecionado = "Declaração";
                     irParaEtapa(3);
                 });
+
+                // Clique para Laudo
                 viewEtapa.findViewById(R.id.cardLaudo).setOnClickListener(v -> {
                     tipoDocumentoSelecionado = "Laudo";
                     irParaEtapa(3);

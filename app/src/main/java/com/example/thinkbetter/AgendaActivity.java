@@ -1,5 +1,7 @@
 package com.example.thinkbetter;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -76,17 +78,27 @@ public class AgendaActivity extends MenuJava {
         recyclerAtendimentosDia.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void alternarAbas(boolean isAgenda) {
-        if (isAgenda) {
-            btnTabAgenda.setBackgroundTintList(getColorStateList(android.R.color.holo_green_dark));
-            btnTabMes.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-            containerAgendaDias.setVisibility(View.VISIBLE);
-            containerMes.setVisibility(View.GONE);
-        } else {
-            btnTabMes.setBackgroundTintList(getColorStateList(android.R.color.holo_green_dark));
-            btnTabAgenda.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+    private void alternarAbas(boolean isMes) {
+        if (isMes) {
+            // Aba Mês selecionada
+            btnTabMes.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2E8B82")));
+            btnTabMes.setTextColor(Color.WHITE);
+
+            btnTabAgenda.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+            btnTabAgenda.setTextColor(Color.parseColor("#557777"));
+
             containerMes.setVisibility(View.VISIBLE);
             containerAgendaDias.setVisibility(View.GONE);
+        } else {
+            // Aba Agenda selecionada
+            btnTabAgenda.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#2E8B82")));
+            btnTabAgenda.setTextColor(Color.WHITE);
+
+            btnTabMes.setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+            btnTabMes.setTextColor(Color.parseColor("#557777"));
+
+            containerAgendaDias.setVisibility(View.VISIBLE);
+            containerMes.setVisibility(View.GONE);
         }
     }
 
@@ -126,7 +138,6 @@ public class AgendaActivity extends MenuJava {
         for (int i = 1; i <= maxDiasDoMes; i++) {
             List<Atendimento> consultasDoDia = new ArrayList<>();
 
-            // Horários fixos solicitados entre 14:00 e 18:00
             String[] horariosFixos = {"14:00", "15:00", "16:00", "17:00", "18:00"};
             String dataFormatada = String.format(Locale.getDefault(), "%02d/%02d", i, (mes + 1));
 
@@ -134,21 +145,20 @@ public class AgendaActivity extends MenuJava {
                 String nomePaciente = "Livre";
                 String detalhes = "Horário disponível";
                 String status = "livre";
-                int tipoStatus = 2; // Tipo padrão para horários livres (teal claro)
+                int tipoStatus = 2;
 
-                // Exemplo mockado de pacientes agendados em Novembro de 2026
                 if (mes == Calendar.NOVEMBER && ano == 2026) {
                     if (i == 1) {
                         if (hora.equals("14:00")) {
                             nomePaciente = "Fernanda Lima";
                             detalhes = "Avaliação · Unimed";
                             status = "pendente";
-                            tipoStatus = 0; // Pendente
+                            tipoStatus = 0;
                         } else if (hora.equals("17:00")) {
                             nomePaciente = "Luciana Rocha";
                             detalhes = "Retorno · Particular";
                             status = "confirmado";
-                            tipoStatus = 1; // Confirmado
+                            tipoStatus = 1;
                         }
                     } else if (i == 10) {
                         if (hora.equals("14:00")) {
@@ -173,16 +183,14 @@ public class AgendaActivity extends MenuJava {
 
         // Configuração do clique nos dias do calendário mensal
         monthGridAdapter = new MonthGridAdapter(mesDiasList, diaSelecionado -> {
-            alternarAbas(true); // Alterna para a aba Agenda/Dias
+            alternarAbas(false); // Alterna para a aba Agenda/Dias
             tvDiaSelecionadoTitulo.setText("Dia " + diaSelecionado.getDiaDoMes());
             tvDiaSelecionadoSub.setText(nomeMesCapitalizado + " de " + ano);
 
-            // Usa o adaptador específico da agenda para exibir o botão de Indisponibilizar
             AgendaAtendimentoAdapter agendaAdapter = new AgendaAtendimentoAdapter(diaSelecionado.getAtendimentos());
             recyclerAtendimentosDia.setAdapter(agendaAdapter);
         });
 
-        // ATENÇÃO: Esta linha é obrigatória para popular os dias na tela!
         recyclerMonthGrid.setAdapter(monthGridAdapter);
     }
 }

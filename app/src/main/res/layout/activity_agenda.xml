@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,101 +7,184 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".AgendaActivity">
 
-    <LinearLayout android:background="#F4FBFB" android:layout_height="match_parent" android:layout_width="match_parent" android:orientation="vertical" android:padding="20dp">
+
+    <LinearLayout android:background="#F4FBFB"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
 
         <!-- Topo: Menu Hamburguer e Avatar -->
+
         <ImageButton
             android:id="@+id/btnMenu"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="2dp"
+
             android:layout_marginTop="2dp"
+
             android:background="@drawable/bg_circle_white_border"
+
             android:contentDescription="Abrir Menu"
+
             android:src="@android:drawable/ic_menu_sort_by_size"
+
             app:layout_constraintStart_toStartOf="parent"
+
             app:layout_constraintTop_toTopOf="parent"
+
             app:tint="#2E8B82" />
 
+
         <!-- Abas de Alternância: Agenda vs Mês -->
+
         <LinearLayout android:background="@drawable/bg_card_white" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:layout_width="match_parent" android:orientation="horizontal" android:padding="6dp">
+
 
             <Button android:backgroundTint="#2E8B82" android:id="@+id/btnTabAgenda" android:layout_height="48dp" android:layout_weight="1" android:layout_width="0dp" android:text="Agenda" android:textColor="@android:color/white" app:cornerRadius="10dp"/>
 
+
             <Button android:backgroundTint="@android:color/transparent" android:id="@+id/btnTabMes" android:layout_height="48dp" android:layout_weight="1" android:layout_width="0dp" android:text="Mês" android:textColor="#557777" app:cornerRadius="10dp"/>
+
         </LinearLayout>
+
 
         <!-- Legenda de Cores de Status -->
+
         <LinearLayout android:gravity="center" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:layout_width="match_parent" android:orientation="horizontal">
+
             <!-- Insira os indicadores de legenda aqui (Confirmado, Pendente, etc.) -->
+
         </LinearLayout>
+
 
         <!-- Container Dinâmico do Calendário Mensal (Visível na aba Mês) -->
+
         <LinearLayout android:background="@drawable/bg_card_white" android:id="@+id/containerMes" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:layout_width="match_parent" android:orientation="vertical" android:padding="12dp" android:visibility="gone">
 
+
             <!-- Cabeçalho do Mês (Setembro 2026) com setas de navegação -->
+
             <RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:paddingBottom="8dp">
+
                 <ImageButton
+
                     android:id="@+id/btnMesAnterior"
+
                     android:layout_width="32dp"
+
                     android:layout_height="32dp"
+
                     android:background="?attr/selectableItemBackgroundBorderless"
+
                     android:src="@android:drawable/arrow_up_float"
+
                     android:rotation="-90"
+
                     app:tint="#2E8B82" />
+
 
                 <TextView
+
                     android:id="@+id/tvMesAno"
+
                     android:layout_centerInParent="true"
+
                     android:layout_height="wrap_content"
+
                     android:layout_width="wrap_content"
+
                     android:text="Setembro 2026"
+
                     android:textColor="#222222"
+
                     android:textStyle="bold"/>
 
+
                 <ImageButton
+
                     android:id="@+id/btnMesProximo"
+
                     android:layout_width="32dp"
+
                     android:layout_height="32dp"
+
                     android:layout_alignParentEnd="true"
+
                     android:background="?attr/selectableItemBackgroundBorderless"
+
                     android:src="@android:drawable/arrow_up_float"
+
                     android:rotation="90"
+
                     app:tint="#2E8B82" />
+
             </RelativeLayout>
 
+
             <!-- Grid Dinâmico do Mês (RecyclerView com 7 colunas) -->
+
             <androidx.recyclerview.widget.RecyclerView
+
                 android:id="@+id/recyclerMonthGrid"
+
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content" />
+
         </LinearLayout>
 
+
         <!-- Container da Visão de Semana/Dias (Visível na aba Agenda) -->
+
         <LinearLayout android:id="@+id/containerAgendaDias" android:layout_height="match_parent" android:layout_marginTop="12dp" android:layout_width="match_parent" android:orientation="vertical">
 
+
             <!-- Barra horizontal de dias da semana -->
+
             <androidx.recyclerview.widget.RecyclerView
+
                 android:id="@+id/recyclerWeekDays"
+
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+
                 android:orientation="horizontal" />
 
+
             <!-- Informações do Dia Selecionado (ex: Quarta-Feira, 9 de Setembro) -->
+
             <TextView android:id="@+id/tvDiaSelecionadoTitulo" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:layout_width="wrap_content"  android:textColor="#222222" android:textSize="16sp" android:textStyle="bold"/>
+
 
             <TextView android:id="@+id/tvDiaSelecionadoSub" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textColor="#668888" android:textSize="12sp"/>
 
+
             <!-- Lista de Atendimentos daquele dia específico -->
+
             <androidx.recyclerview.widget.RecyclerView
+
                 android:id="@+id/recyclerAtendimentosDia"
+
                 android:layout_width="match_parent"
+
                 android:layout_height="match_parent"
+
                 android:layout_marginTop="12dp"
+
                 tools:listitem="@layout/item_atendimento" />
+
         </LinearLayout>
 
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
