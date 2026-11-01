@@ -1,3 +1,38 @@
+# Caches e arquivos temporários do Gradle e Android Studio
+.gradle/
+/build/
+/app/build/
+!/build.gradle
+/captures/
+.externalNativeBuild/
+.cxx/
+/local.properties
+
+# Configurações locais do Android Studio (NUNCA enviar)
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries
+.idea/libraries
+.idea/caches
+.idea/modules.xml
+.idea/navEditor.xml
+
+# Arquivos de sistema e compilação genéricos
+*.iml
+.DS_Store
+Thumbs.db
+
+# Bloqueia arquivos gerados (APKs e pacotes)
+*.apk
+*.aar
+*.bundle
+
+# --- PROTEÇÃO DO GRADLE WRAPPER ---
+# Bloqueia arquivos .jar no geral, mas abre exceção crucial para o wrapper do Gradle
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
 # Caches do Gradle e Android Studio
 .gradle/
 /build/
