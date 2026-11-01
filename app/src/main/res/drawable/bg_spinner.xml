@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fundo do menu de seleção: mesmo visual do bg_input + seta à direita -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/bg_input" />
+    <item
+        android:width="20dp"
+        android:height="20dp"
+        android:drawable="@drawable/ic_seta_baixo"
+        android:end="14dp"
+        android:gravity="end|center_vertical" />
+</layer-list>
