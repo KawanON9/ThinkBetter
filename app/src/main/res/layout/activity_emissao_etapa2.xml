@@ -60,13 +60,13 @@
 
             <TextView
                 android:id="@+id/btnRecomecar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:text="Recomeçar"
                 android:textColor="#557777"
-                android:textSize="13sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@id/tvTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvTitle" />

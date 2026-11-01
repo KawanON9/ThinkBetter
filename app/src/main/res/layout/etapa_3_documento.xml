@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:andorid="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PERÍODO"
+        android:textColor="#2E8B82"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_card_white"
+        android:hint="Ex: 10/09/2026 a 12/09/2026"
+        android:paddingHorizontal="12dp"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CÓDIGO CID (OPCIONAL)"
+        android:textColor="#2E8B82"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_card_white"
+        android:hint="Ex: F41.1"
+        android:paddingHorizontal="12dp"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DESCRIÇÃO / JUSTIFICATIVA"
+        android:textColor="#2E8B82"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_card_white"
+        android:gravity="top"
+        android:padding="12dp"
+        android:textSize="13sp"
+        android:text="Descreva os destalhes..."/>
+
+    <!-- Botão Pré-visualizar -->
+    <Button
+        android:id="@+id/btnPreVisualizar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:backgroundTint="#2E8B82"
+        android:text="Pré-visualizar"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        app:cornerRadius="10dp" />
+
+</LinearLayout>

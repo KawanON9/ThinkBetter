@@ -83,7 +83,7 @@ public class MainActivity extends MenuJava {
         LinearLayout cardDoucementos = findViewById(R.id.cardDocuementos);
         if (cardDoucementos != null) {
             cardDoucementos.setOnClickListener(v -> {
-                startActivity(new Intent(MainActivity.this, EmissaoEtapa2Activity.class));
+                startActivity(new Intent(MainActivity.this, EmissaoDocumentoActivity.class));
             });
         }
     }

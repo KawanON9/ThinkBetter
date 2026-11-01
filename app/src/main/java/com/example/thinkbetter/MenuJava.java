@@ -69,6 +69,10 @@ public class MenuJava extends AppCompatActivity {
                         finish();
                     }
                 } else if (id == R.id.nav_documentos) {
+                    if (!(MenuJava.this instanceof EmissaoDocumentoActivity)) {
+                        startActivity(new Intent(MenuJava.this, EmissaoDocumentoActivity.class));
+                        finish();
+                    }
                     Toast.makeText(MenuJava.this, "Documentos", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_configuracoes) {
                     if (!(MenuJava.this instanceof ConfiguracoesActivity)) {

@@ -45,6 +45,10 @@
         <activity android:name=".EmissaoEtapa3Activity"/>
         <activity android:name=".EmissaoEtapa4Activity"/>
 
+        <activity android:name=".EmissaoDocumentoActivity"/>
+
+
+
         <!--Paciente-->
         <activity android:name=".MainPacienteActivity"/>
         <activity android:name=".AgendarConsultaActivity"/>

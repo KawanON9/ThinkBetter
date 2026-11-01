@@ -57,8 +57,8 @@ public class AgendaActivity extends MenuJava {
         currentYear = DiaCalendario.getAnoAtual();
 
         // Configuração das Abas (Alternância Mês vs Agenda)
-        btnTabAgenda.setOnClickListener(v -> alternarAbas(true));
-        btnTabMes.setOnClickListener(v -> alternarAbas(false));
+        btnTabAgenda.setOnClickListener(v -> alternarAbas(false));
+        btnTabMes.setOnClickListener(v -> alternarAbas(true));
 
         // Navegação entre os meses
         if (btnMesAnterior != null) {

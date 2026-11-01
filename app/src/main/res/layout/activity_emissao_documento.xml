@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4FBFB"
+    tools:context=".EmissaoDocumentoActivity">
+
+    <!-- Topo: Menu e Avatar -->
+    <ImageButton
+        android:id="@+id/btnMenu"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_circle_white_border"
+        android:src="@android:drawable/ic_menu_sort_by_size"
+        android:contentDescription="Abrir Menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#2E8B82" />
+
+    <TextView
+        android:id="@+id/tvAvatarTop"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_circle_teal"
+        android:gravity="center"
+        android:text="DR"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="Emissão de Documentos"
+        android:textColor="#112222"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnMenu" />
+
+    <TextView
+        android:id="@+id/tvRecomecar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="Recomeçar"
+        android:textColor="#557777"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvTitle"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Indicador de Etapas (Passos 1 a 5) -->
+    <LinearLayout
+        android:id="@+id/layoutStepper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+        <!-- Passo 1 -->
+        <TextView android:id="@+id/step1" android:layout_width="28dp" android:layout_height="28dp" android:background="@drawable/bg_circle_teal" android:gravity="center" android:text="1" android:textColor="@android:color/white" android:textSize="12sp" android:textStyle="bold"/>
+        <View android:layout_width="30dp" android:layout_height="2dp" android:background="#2E8B82"/>
+        <!-- Passo 2 -->
+        <TextView android:id="@+id/step2" android:layout_width="28dp" android:layout_height="28dp" android:background="@drawable/bg_circle_white_border" android:gravity="center" android:text="2" android:textColor="#557777" android:textSize="12sp" android:textStyle="bold"/>
+        <View android:layout_width="30dp" android:layout_height="2dp" android:background="#CCCCCC"/>
+        <!-- Passo 3 -->
+        <TextView android:id="@+id/step3" android:layout_width="28dp" android:layout_height="28dp" android:background="@drawable/bg_circle_white_border" android:gravity="center" android:text="3" android:textColor="#557777" android:textSize="12sp" android:textStyle="bold"/>
+        <View android:layout_width="30dp" android:layout_height="2dp" android:background="#CCCCCC"/>
+        <!-- Passo 4 -->
+        <TextView android:id="@+id/step4" android:layout_width="28dp" android:layout_height="28dp" android:background="@drawable/bg_circle_white_border" android:gravity="center" android:text="4" android:textColor="#557777" android:textSize="12sp" android:textStyle="bold"/>
+        <View android:layout_width="30dp" android:layout_height="2dp" android:background="#CCCCCC"/>
+        <!-- Passo 5 -->
+        <TextView android:id="@+id/step5" android:layout_width="28dp" android:layout_height="28dp" android:background="@drawable/bg_circle_white_border" android:gravity="center" android:text="5" android:textColor="#557777" android:textSize="12sp" android:textStyle="bold"/>
+    </LinearLayout>
+
+    <!-- Container Dinâmico onde as Etapas (1 a 5) serão injetadas -->
+    <FrameLayout
+        android:id="@+id/containerEtapas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutStepper" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
