@@ -11,18 +11,17 @@
 
     <!-- Logo / Ícone -->
     <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/bg_card_logo"
-        android:contentDescription="Logo ThinkBetter"
-        android:padding="16dp"
-        android:src="@android:drawable/ic_menu_agenda" 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@android:color/white" />
+      android:id="@+id/ivLogo"
+      android:layout_width="80dp"
+      android:layout_height="80dp"
+      android:layout_marginTop="60dp"
+        android:clipToOutline="true"
+      android:background="@drawable/bg_card_logo"
+      android:contentDescription="Logo ThinkBetter"
+      android:src="@drawable/logo_think"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Título do Aplicativo -->
     <TextView

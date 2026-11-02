@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4FBFB"
+    tools:context=".EsqueciSenhaActivity">
+
+    <!-- Logo no topo -->
+    <ImageView
+        android:id="@+id/ivLogoRecuperacao"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="60dp"
+        android:clipToOutline="true"
+        android:background="@drawable/bg_card_logo"
+        android:contentDescription="Logo ThinkBetter"
+        android:src="@drawable/logo_think"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Título da Tela -->
+    <TextView
+        android:id="@+id/tvTituloRecuperacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Recuperar Senha"
+        android:textColor="#112222"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivLogoRecuperacao" />
+
+    <TextView
+        android:id="@+id/tvSubtituloRecuperacao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Digite seu e-mail cadastrado e enviaremos as instruções para redefinir sua senha."
+        android:textColor="#557777"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTituloRecuperacao" />
+
+    <!-- Card com o Campo de E-mail -->
+    <LinearLayout
+        android:id="@+id/cardFormRecuperacao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_card_white"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtituloRecuperacao">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="E-MAIL CADASTRADO"
+            android:textColor="#2E8B82"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etEmailRecuperacao"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_card_white"
+            android:hint="seu.email@email.com"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="12dp"
+            android:textSize="14sp" />
+
+        <!-- Botão Enviar Instruções -->
+        <Button
+            android:id="@+id/btnEnviarInstrucoes"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#2E8B82"
+            android:text="Enviar Instruções"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:cornerRadius="10dp" />
+    </LinearLayout>
+
+    <!-- Botão Voltar para o Login -->
+    <TextView
+        android:id="@+id/tvVoltarLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="← Voltar para o Login"
+        android:textColor="#2E8B82"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardFormRecuperacao" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

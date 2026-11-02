@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     // Aqui você colocará a lógica de autenticação
                     Toast.makeText(LoginActivity.this, "Tentando entrar...", Toast.LENGTH_SHORT).show();
+                    //ToastUtils.mostrar(LoginActivity.this, "Instruções enviadas para " + email);
                 }
             }
         });
@@ -78,7 +79,8 @@ public class LoginActivity extends AppCompatActivity {
         tvEsqueciSenha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Tela de recuperação de senha", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(LoginActivity.this, EsqueciSenhaActivity.class);
+                startActivity(intent);
             }
         });
         // Abrir tela de cadastro

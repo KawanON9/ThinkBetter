@@ -46,7 +46,7 @@
         <activity android:name=".EmissaoEtapa4Activity"/>
 
         <activity android:name=".EmissaoDocumentoActivity"/>
-
+        <activity android:name=".EsqueciSenhaActivity"/>
 
 
         <!--Paciente-->
