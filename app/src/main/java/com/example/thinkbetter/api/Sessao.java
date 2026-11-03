@@ -31,6 +31,11 @@ public final class Sessao {
     public static String tipo(Context c)  { return prefs(c).getString("tipo", null); }
     public static String nome(Context c)  { return prefs(c).getString("nome", ""); }
 
+    /** Atualiza o nome guardado (ex.: depois de editar o "Meu Perfil"). */
+    public static void atualizarNome(Context c, String nome) {
+        prefs(c).edit().putString("nome", nome).apply();
+    }
+
     public static void sair(Context c) {
         prefs(c).edit().clear().apply();
     }

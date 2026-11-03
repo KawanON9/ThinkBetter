@@ -33,5 +33,7 @@ API REST entre o app Android e o banco MySQL/MariaDB (modelo completo).
 | POST   | /documentos/previa                    | Emissão de Documentos, etapa 4 (prévia, sem gravar) | Pacientes, Psicologos |
 | POST   | /documentos                           | Emissão de Documentos, "Confirmar" (grava)          | Documentos            |
 | GET    | /pacientes/{id}/documentos            | Meus Documentos do paciente                         | Documentos            |
+| GET    | /usuarios/{id}/perfil                 | Meu Perfil (ler)                                    | Usuarios, Pacientes / Psicologos |
+| PUT    | /usuarios/{id}/perfil                 | Meu Perfil (salvar)                                 | Usuarios, Pacientes / Psicologos |
 
 Erros sempre voltam como `{"erro": "mensagem"}`.

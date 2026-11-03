@@ -27,13 +27,21 @@ public class ConfiguracoesActivity extends MenuJava {
         setupItem(R.id.itemSobre, "Sobre o app", "Versão, Termos e Privacidade",
                 v -> startActivity(new Intent(this, AboutActivity.class)));
 
+        // Modo escuro: mostra a escolha salva e salva a nova (reaplicada pelo ThinkBetterApp ao abrir o app)
         MaterialSwitch switchDark = findViewById(R.id.switchDark);
-        switchDark.setOnCheckedChangeListener((button, checked) ->
-                AppCompatDelegate.setDefaultNightMode(
-                        checked ? AppCompatDelegate.MODE_NIGHT_YES
-                                : AppCompatDelegate.MODE_NIGHT_NO));
+        switchDark.setChecked(getSharedPreferences(ThinkBetterApp.PREFS, MODE_PRIVATE)
+                .getBoolean(ThinkBetterApp.CHAVE_MODO_ESCURO, false));
+        switchDark.setOnCheckedChangeListener((button, checked) -> {
+            getSharedPreferences(ThinkBetterApp.PREFS, MODE_PRIVATE).edit()
+                    .putBoolean(ThinkBetterApp.CHAVE_MODO_ESCURO, checked)
+                    .apply();
+            AppCompatDelegate.setDefaultNightMode(
+                    checked ? AppCompatDelegate.MODE_NIGHT_YES
+                            : AppCompatDelegate.MODE_NIGHT_NO);
+        });
 
-        findViewById(R.id.itemSair).setOnClickListener(v -> toast("Sair"));
+        // Sair do sistema: esquece o usuário logado e volta ao Login
+        findViewById(R.id.itemSair).setOnClickListener(v -> MenuPacienteJava.sairDoSistema(this));
     }
 
     private void setupItem(int itemId, String title, String subtitle, View.OnClickListener click) {

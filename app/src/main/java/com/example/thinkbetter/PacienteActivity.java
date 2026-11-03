@@ -1,8 +1,8 @@
 package com.example.thinkbetter;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -17,8 +17,12 @@ import com.example.thinkbetter.api.ApiClient;
 import com.example.thinkbetter.api.Formatos;
 import com.example.thinkbetter.api.PacienteResumo;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +35,11 @@ public class PacienteActivity extends MenuJava {
     private List<Paciente> pacienteList;
     private Button btnSort;
     private EditText etSearch;
+    private TextView tvSubtitle;
+
+    /** Todos os pacientes vindos do banco; a lista na tela é este conjunto filtrado e ordenado. */
+    private final List<Paciente> todosPacientes = new ArrayList<>();
+    private boolean ordemCrescente = true;
 
 
     @Override
@@ -43,6 +52,7 @@ public class PacienteActivity extends MenuJava {
 
         btnSort = findViewById(R.id.btnSort);
         etSearch = findViewById(R.id.etSearch);
+        tvSubtitle = findViewById(R.id.tvSubtitle);
         recyclerView = findViewById(R.id.recyclerViewPacientes);
 
 
@@ -54,25 +64,43 @@ public class PacienteActivity extends MenuJava {
         recyclerView.setAdapter(adapter);
 
 
-        btnSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PacienteActivity.this, MainActivity.class);
-                startActivity(intent);
-                Toast.makeText(PacienteActivity.this, "Ordenação A-Z ativada", Toast.LENGTH_SHORT).show();
-            }
+        // Ordenar: alterna A→Z / Z→A (antes abria a tela inicial por engano)
+        btnSort.setOnClickListener(v -> {
+            ordemCrescente = !ordemCrescente;
+            btnSort.setText(ordemCrescente ? "A→Z" : "Z→A");
+            aplicarFiltro();
         });
 
-        /*
-        tvSeta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(PacienteActivity.this, ProntuarioActivity.class);
-                startActivity(intent);
-            }
+        // Busca: filtra pelo nome enquanto digita (ignora maiúsculas e acentos)
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int a, int b, int c) { }
+            @Override public void onTextChanged(CharSequence s, int a, int b, int c) { }
+            @Override public void afterTextChanged(Editable s) { aplicarFiltro(); }
         });
+    }
 
-         */
+    /** Mostra só os pacientes cujo nome contém o texto da busca, na ordem escolhida. */
+    private void aplicarFiltro() {
+        String busca = semAcento(etSearch.getText().toString().trim());
+        List<Paciente> visiveis = new ArrayList<>();
+        for (Paciente p : todosPacientes) {
+            if (busca.isEmpty() || semAcento(p.getNome()).contains(busca)) visiveis.add(p);
+        }
+        Comparator<Paciente> porNome = (a, b) -> semAcento(a.getNome()).compareTo(semAcento(b.getNome()));
+        Collections.sort(visiveis, ordemCrescente ? porNome : Collections.reverseOrder(porNome));
+        adapter.atualizar(visiveis);
+
+        int total = todosPacientes.size();
+        tvSubtitle.setText(busca.isEmpty()
+                ? total + (total == 1 ? " cadastrado" : " cadastrados")
+                : visiveis.size() + " de " + total + " pacientes");
+    }
+
+    /** "José" → "jose": para buscar e ordenar sem depender de acento ou maiúscula. */
+    private static String semAcento(String texto) {
+        return Normalizer.normalize(texto, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "")
+                .toLowerCase(Locale.ROOT);
     }
 
     /** Recarrega sempre que a tela volta a aparecer (ex.: depois de um cadastro). */
@@ -91,14 +119,14 @@ public class PacienteActivity extends MenuJava {
                             ApiClient.mensagemDeErro(resposta), Toast.LENGTH_LONG).show();
                     return;
                 }
-                List<Paciente> lista = new ArrayList<>();
+                todosPacientes.clear();
                 for (PacienteResumo p : resposta.body()) {
                     // Mesmo formato de antes: "Unimed · (11) 9 9000-0003"
                     String detalhes = p.plano + " · " + Formatos.telefone(p.telefone);
-                    lista.add(new Paciente(p.id, p.nome + " " + p.sobrenome, detalhes));
+                    todosPacientes.add(new Paciente(p.id, p.nome + " " + p.sobrenome, detalhes));
                 }
-                adapter.atualizar(lista);
-                if (lista.isEmpty()) {
+                aplicarFiltro(); // mantém a busca e a ordem escolhidas
+                if (todosPacientes.isEmpty()) {
                     Toast.makeText(PacienteActivity.this,
                             "Nenhum paciente cadastrado ainda", Toast.LENGTH_SHORT).show();
                 }

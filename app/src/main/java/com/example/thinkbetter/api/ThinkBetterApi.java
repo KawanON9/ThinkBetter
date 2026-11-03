@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -67,6 +68,13 @@ public interface ThinkBetterApi {
     /** Meus Documentos do paciente. */
     @GET("pacientes/{id}/documentos")
     Call<List<DocumentoGerado>> documentosDoPaciente(@Path("id") long idPaciente);
+
+    /** Meu Perfil: id = ID_Usuario (Sessao.idUsuario). */
+    @GET("usuarios/{id}/perfil")
+    Call<Perfil> lerPerfil(@Path("id") long idUsuario);
+
+    @PUT("usuarios/{id}/perfil")
+    Call<Perfil> salvarPerfil(@Path("id") long idUsuario, @Body Perfil dados);
 
     @POST("consultas/{id}/cancelar")
     Call<StatusResponse> cancelarConsulta(@Path("id") long idConsulta, @Query("paciente") long idPaciente);

@@ -49,32 +49,7 @@ public class MenuPacienteJava extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-
-                if (id == R.id.nav_paciente_inicio) {
-                    if (!(MenuPacienteJava.this instanceof MainPacienteActivity)) {
-                        startActivity(new Intent(MenuPacienteJava.this, MainPacienteActivity.class));
-                        finish();
-                    }
-                } else if (id == R.id.nav_paciente_agendar) {
-                        Intent intent = new Intent(MenuPacienteJava.this, AgendarConsultaActivity.class);
-                        startActivity(intent);
-                        finish();
-                } else if (id == R.id.nav_paciente_documentos) {
-                        Intent intent = new Intent(MenuPacienteJava.this, MeusDocumentosActivity.class);
-                        startActivity(intent);
-                } else if (id == R.id.nav_paciente_configuracoes) {
-                    // Crie ou direcione para a tela de configurações do paciente se houver
-                    Intent intent = new Intent(MenuPacienteJava.this, ConfiguracoesActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(MenuPacienteJava.this, "Configurações", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.nav_paciente_sair) {
-                    Toast.makeText(MenuPacienteJava.this, "Saindo do sistema...", Toast.LENGTH_SHORT).show();
-                    com.example.thinkbetter.api.Sessao.sair(MenuPacienteJava.this); // esquece o usuário logado
-                    Intent intent = new Intent(MenuPacienteJava.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+                navegarComoPaciente(MenuPacienteJava.this, item.getItemId());
 
                 if (drawerLayout != null) {
                     drawerLayout.closeDrawer(GravityCompat.START);
@@ -82,6 +57,46 @@ public class MenuPacienteJava extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    /**
+     * Itens do menu do PACIENTE. É estático para ser usado também pelas telas
+     * comuns aos dois perfis (Configurações, Meu Perfil...), que herdam de MenuJava.
+     */
+    static void navegarComoPaciente(AppCompatActivity tela, int id) {
+        if (id == R.id.nav_paciente_inicio) {
+            if (!(tela instanceof MainPacienteActivity)) {
+                tela.startActivity(new Intent(tela, MainPacienteActivity.class));
+                tela.finish();
+            }
+        } else if (id == R.id.nav_paciente_agendar) {
+            if (!(tela instanceof AgendarConsultaActivity)) {
+                tela.startActivity(new Intent(tela, AgendarConsultaActivity.class));
+                tela.finish();
+            }
+        } else if (id == R.id.nav_paciente_documentos) {
+            if (!(tela instanceof MeusDocumentosActivity)) {
+                tela.startActivity(new Intent(tela, MeusDocumentosActivity.class));
+                tela.finish();
+            }
+        } else if (id == R.id.nav_paciente_configuracoes) {
+            if (!(tela instanceof ConfiguracoesActivity)) {
+                tela.startActivity(new Intent(tela, ConfiguracoesActivity.class));
+                tela.finish();
+            }
+        } else if (id == R.id.nav_paciente_sair) {
+            sairDoSistema(tela);
+        }
+    }
+
+    /** Esquece o usuário logado e volta ao Login, sem deixar telas abertas por trás. */
+    static void sairDoSistema(AppCompatActivity tela) {
+        Toast.makeText(tela, "Saindo do sistema...", Toast.LENGTH_SHORT).show();
+        com.example.thinkbetter.api.Sessao.sair(tela);
+        Intent intent = new Intent(tela, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        tela.startActivity(intent);
+        tela.finish();
     }
 
     protected void setupMenuButton(int btnMenuId) {
