@@ -64,22 +64,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = etEmail.getText().toString().trim();
-                String senha = etSenha.getText().toString().trim();
+                String senha = etSenha.getText().toString(); // sem trim: igual ao cadastro
 
                 if (email.isEmpty() || senha.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-                } else if (email.equals("admin") && senha.equals("admin")) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (email.equals("user") && senha.equals("user")) {
-                    Intent intent = new Intent(LoginActivity.this, MainPacienteActivity.class);
-                    startActivity(intent);
-                    finish();
                 } else {
-                    // Aqui você colocará a lógica de autenticação
-                    Toast.makeText(LoginActivity.this, "Tentando entrar...", Toast.LENGTH_SHORT).show();
-                    //ToastUtils.mostrar(LoginActivity.this, "Instruções enviadas para " + email);
+                    entrar(email, senha);
                 }
             }
         });
