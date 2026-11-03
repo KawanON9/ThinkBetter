@@ -8,16 +8,28 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.thinkbetter.api.ApiClient;
+import com.example.thinkbetter.api.SessaoAgenda;
+import com.example.thinkbetter.api.Sessao;
+import com.example.thinkbetter.api.StatusResponse;
+
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AgendaActivity extends MenuJava {
 
@@ -32,6 +44,15 @@ public class AgendaActivity extends MenuJava {
 
     private int currentMonth;
     private int currentYear;
+
+    /** Horários fixos exibidos em cada dia (os mesmos do Agendar Consulta). */
+    private static final String[] HORARIOS_FIXOS = {"14:00", "15:00", "16:00", "17:00", "18:00"};
+
+    /** Evita que a resposta de um mês antigo sobrescreva o mês que está na tela. */
+    private int versaoDaConsulta = 0;
+
+    /** Dia mostrado na aba Agenda. Começa no dia de hoje. */
+    private int diaSelecionado = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +93,16 @@ public class AgendaActivity extends MenuJava {
 
         // Inicializar Calendário Mensal Dinâmico
         recyclerMonthGrid.setLayoutManager(new GridLayoutManager(this, 7));
-        carregarMesDinamico(currentYear, currentMonth);
 
         // Configurar lista de atendimentos do dia
         recyclerAtendimentosDia.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    /** Recarrega ao voltar para a tela: consultas marcadas pelos pacientes aparecem na hora. */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        carregarMesDinamico(currentYear, currentMonth);
     }
 
     private void alternarAbas(boolean isMes) {
@@ -111,10 +138,54 @@ public class AgendaActivity extends MenuJava {
             currentMonth = 11;
             currentYear--;
         }
+        // Voltando ao mês atual → dia de hoje; outros meses → dia 1
+        Calendar hoje = Calendar.getInstance();
+        boolean mesAtual = currentMonth == hoje.get(Calendar.MONTH) && currentYear == hoje.get(Calendar.YEAR);
+        diaSelecionado = mesAtual ? hoje.get(Calendar.DAY_OF_MONTH) : 1;
         carregarMesDinamico(currentYear, currentMonth);
     }
 
+    /**
+     * GET /psicologos/{id}/agenda?de=1º dia&ate=último dia → monta o mês.
+     * Cada dia mostra os horários fixos: os que têm consulta no banco aparecem
+     * com o paciente; os demais aparecem como "Livre".
+     */
     private void carregarMesDinamico(int ano, int mes) {
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(ano, mes, 1);
+        int maxDiasDoMes = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        String de = String.format(Locale.US, "%04d-%02d-01", ano, mes + 1);
+        String ate = String.format(Locale.US, "%04d-%02d-%02d", ano, mes + 1, maxDiasDoMes);
+
+        final int versao = ++versaoDaConsulta;
+        ApiClient.api().agendaDoPeriodo(Sessao.id(this), de, ate)
+                .enqueue(new Callback<List<SessaoAgenda>>() {
+                    @Override
+                    public void onResponse(Call<List<SessaoAgenda>> call, Response<List<SessaoAgenda>> resposta) {
+                        if (versao != versaoDaConsulta) return;
+                        if (!resposta.isSuccessful() || resposta.body() == null) {
+                            Toast.makeText(AgendaActivity.this, ApiClient.mensagemDeErro(resposta), Toast.LENGTH_LONG).show();
+                            montarMes(ano, mes, new ArrayList<>());
+                            return;
+                        }
+                        montarMes(ano, mes, resposta.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<SessaoAgenda>> call, Throwable t) {
+                        if (versao != versaoDaConsulta) return;
+                        Toast.makeText(AgendaActivity.this, ApiClient.mensagemDeFalha(t), Toast.LENGTH_LONG).show();
+                        montarMes(ano, mes, new ArrayList<>());
+                    }
+                });
+    }
+
+    private void montarMes(int ano, int mes, List<SessaoAgenda> sessoes) {
+        // "2026-11-04 15:00" → sessão do banco
+        Map<String, SessaoAgenda> porDataHora = new HashMap<>();
+        for (SessaoAgenda s : sessoes) porDataHora.put(s.data + " " + s.hora, s);
+
         mesDiasList = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
         cal.set(ano, mes, 1);
@@ -133,64 +204,86 @@ public class AgendaActivity extends MenuJava {
             mesDiasList.add(new DiaCalendario(maxDiasMesAnterior - i, mes == 0 ? 11 : mes - 1, mes == 0 ? ano - 1 : ano, false, null));
         }
 
-        // Preencher os dias do mês atual e gerar horários das 14:00 às 18:00
-        cal.set(ano, mes, 1);
+        // Dias do mês atual: horários fixos + consultas reais do banco
         for (int i = 1; i <= maxDiasDoMes; i++) {
             List<Atendimento> consultasDoDia = new ArrayList<>();
-
-            String[] horariosFixos = {"14:00", "15:00", "16:00", "17:00", "18:00"};
             String dataFormatada = String.format(Locale.getDefault(), "%02d/%02d", i, (mes + 1));
+            String dataIso = String.format(Locale.US, "%04d-%02d-%02d", ano, mes + 1, i);
 
-            for (String hora : horariosFixos) {
-                String nomePaciente = "Livre";
-                String detalhes = "Horário disponível";
-                String status = "livre";
-                int tipoStatus = 2;
-
-                if (mes == Calendar.NOVEMBER && ano == 2026) {
-                    if (i == 1) {
-                        if (hora.equals("14:00")) {
-                            nomePaciente = "Fernanda Lima";
-                            detalhes = "Avaliação · Unimed";
-                            status = "pendente";
-                            tipoStatus = 0;
-                        } else if (hora.equals("17:00")) {
-                            nomePaciente = "Luciana Rocha";
-                            detalhes = "Retorno · Particular";
-                            status = "confirmado";
-                            tipoStatus = 1;
-                        }
-                    } else if (i == 10) {
-                        if (hora.equals("14:00")) {
-                            nomePaciente = "Kawan Fulano";
-                            detalhes = "Avaliação · Unimed";
-                            status = "pendente";
-                            tipoStatus = 0;
-                        } else if (hora.equals("17:00")) {
-                            nomePaciente = "Luciana do Android";
-                            detalhes = "Retorno · Particular";
-                            status = "confirmado";
-                            tipoStatus = 1;
-                        }
-                    }
+            for (String hora : HORARIOS_FIXOS) {
+                SessaoAgenda s = porDataHora.get(dataIso + " " + hora);
+                if (s != null) {
+                    boolean confirmada = "Confirmada".equals(s.status);
+                    consultasDoDia.add(new Atendimento(s.idConsulta, hora, dataFormatada, s.nomePaciente,
+                            nomeDoTipo(s.tipo) + " · " + s.plano + " · " + s.modalidade,
+                            s.status.toLowerCase(), confirmada ? 1 : 0));
+                } else {
+                    consultasDoDia.add(new Atendimento(hora, dataFormatada, "Livre", "Horário disponível", "livre", 2));
                 }
-
-                consultasDoDia.add(new Atendimento(hora, dataFormatada, nomePaciente, detalhes, status, tipoStatus));
             }
 
             mesDiasList.add(new DiaCalendario(i, mes, ano, true, consultasDoDia));
         }
 
         // Configuração do clique nos dias do calendário mensal
-        monthGridAdapter = new MonthGridAdapter(mesDiasList, diaSelecionado -> {
+        monthGridAdapter = new MonthGridAdapter(mesDiasList, dia -> {
+            if (!dia.isEDoMesAtual()) return; // dias cinza do mês anterior
+            diaSelecionado = dia.getDiaDoMes();
+            mostrarDia(dia, nomeMesCapitalizado, ano);
             alternarAbas(false); // Alterna para a aba Agenda/Dias
-            tvDiaSelecionadoTitulo.setText("Dia " + diaSelecionado.getDiaDoMes());
-            tvDiaSelecionadoSub.setText(nomeMesCapitalizado + " de " + ano);
-
-            AgendaAtendimentoAdapter agendaAdapter = new AgendaAtendimentoAdapter(diaSelecionado.getAtendimentos());
-            recyclerAtendimentosDia.setAdapter(agendaAdapter);
         });
 
         recyclerMonthGrid.setAdapter(monthGridAdapter);
+
+        // Abre já mostrando o dia selecionado (hoje, na primeira vez)
+        int dia = Math.min(diaSelecionado, maxDiasDoMes);
+        for (DiaCalendario d : mesDiasList) {
+            if (d.isEDoMesAtual() && d.getDiaDoMes() == dia) {
+                mostrarDia(d, nomeMesCapitalizado, ano);
+                break;
+            }
+        }
+    }
+
+    /** Marca o dia no calendário e mostra seus horários na aba Agenda. */
+    private void mostrarDia(DiaCalendario dia, String nomeMesCapitalizado, int ano) {
+        for (DiaCalendario d : mesDiasList) d.setSelecionado(d == dia);
+        monthGridAdapter.notifyDataSetChanged();
+
+        Calendar hoje = Calendar.getInstance();
+        boolean ehHoje = dia.getDiaDoMes() == hoje.get(Calendar.DAY_OF_MONTH)
+                && dia.getMes() == hoje.get(Calendar.MONTH) && dia.getAno() == hoje.get(Calendar.YEAR);
+        tvDiaSelecionadoTitulo.setText((ehHoje ? "Hoje · " : "") + "Dia " + dia.getDiaDoMes());
+        tvDiaSelecionadoSub.setText(nomeMesCapitalizado + " de " + ano);
+
+        recyclerAtendimentosDia.setAdapter(new AgendaAtendimentoAdapter(dia.getAtendimentos(), this::confirmarAtendimento));
+    }
+
+    /** POST /consultas/{id}/confirmar?psicologo={id} e recarrega o mês (mantendo o dia). */
+    private void confirmarAtendimento(Atendimento atendimento) {
+        ApiClient.api().confirmarConsultaComoPsicologo(atendimento.getIdConsulta(), Sessao.id(this))
+                .enqueue(new Callback<StatusResponse>() {
+                    @Override
+                    public void onResponse(Call<StatusResponse> call, Response<StatusResponse> resposta) {
+                        String msg = resposta.isSuccessful()
+                                ? "Atendimento de " + atendimento.getNomePaciente() + " confirmado!"
+                                : ApiClient.mensagemDeErro(resposta);
+                        Toast.makeText(AgendaActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        carregarMesDinamico(currentYear, currentMonth);
+                    }
+
+                    @Override
+                    public void onFailure(Call<StatusResponse> call, Throwable t) {
+                        Toast.makeText(AgendaActivity.this, ApiClient.mensagemDeFalha(t), Toast.LENGTH_LONG).show();
+                        carregarMesDinamico(currentYear, currentMonth);
+                    }
+                });
+    }
+
+    /** Valores do banco (sem acento) → texto da tela. */
+    private static String nomeDoTipo(String tipo) {
+        if ("Avaliacao".equals(tipo)) return "Avaliação";
+        if ("Sessao".equals(tipo)) return "Sessão";
+        return tipo;
     }
 }

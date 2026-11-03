@@ -7,6 +7,7 @@ public class Atendimento {
     private String detalhes;
     private String status;
     private int tipoStatus; // 0: pendente, 1: confirmado, 2: realizado, 3: indisponível/livre
+    private long idConsulta; // ID_Consulta no banco (0 = horário livre, sem consulta)
 
     public Atendimento(String hora, String data, String nomePaciente, String detalhes, String status, int tipoStatus) {
         this.hora = hora;
@@ -17,6 +18,13 @@ public class Atendimento {
         this.tipoStatus = tipoStatus;
     }
 
+    /** Atendimento vindo do banco: guarda o ID da consulta para confirmar pela API. */
+    public Atendimento(long idConsulta, String hora, String data, String nomePaciente, String detalhes, String status, int tipoStatus) {
+        this(hora, data, nomePaciente, detalhes, status, tipoStatus);
+        this.idConsulta = idConsulta;
+    }
+
+    public long getIdConsulta() { return idConsulta; }
     public String getHora() { return hora; }
     public String getData() { return data; }
     public String getNomePaciente() { return nomePaciente; }

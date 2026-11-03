@@ -1,5 +1,7 @@
 package com.example.thinkbetter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -39,8 +42,28 @@ public class DocumentoAdapter extends RecyclerView.Adapter<DocumentoAdapter.Docu
         holder.tvDetalhes.setText(doc.getDetalhes());
 
         holder.btnDownload.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "Baixando: " + doc.getTitulo() + "...", Toast.LENGTH_SHORT).show();
+            if (doc.getTexto() == null) {
+                Toast.makeText(v.getContext(), "Baixando: " + doc.getTitulo() + "...", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            mostrarDocumento(v.getContext(), doc);
         });
+    }
+
+    /** Mostra o documento completo, com opção de compartilhar (salvar, enviar por e-mail etc.). */
+    private static void mostrarDocumento(Context contexto, Documento doc) {
+        new AlertDialog.Builder(contexto)
+                .setTitle(doc.getTitulo())
+                .setMessage(doc.getTexto())
+                .setPositiveButton("Compartilhar", (dialog, qual) -> {
+                    Intent envio = new Intent(Intent.ACTION_SEND);
+                    envio.setType("text/plain");
+                    envio.putExtra(Intent.EXTRA_SUBJECT, doc.getTitulo());
+                    envio.putExtra(Intent.EXTRA_TEXT, doc.getTitulo().toUpperCase() + "\n\n" + doc.getTexto());
+                    contexto.startActivity(Intent.createChooser(envio, "Compartilhar documento"));
+                })
+                .setNegativeButton("Fechar", null)
+                .show();
     }
 
     @Override

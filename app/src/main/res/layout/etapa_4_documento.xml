@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:id="@+id/tvDocTitulo"
             android:text="ATESTADO"
             android:textColor="#222222"
             android:textSize="16sp"
@@ -33,9 +34,11 @@
             android:layout_marginTop="16dp" />
 
         <TextView
+            android:id="@+id/tvDocTexto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textIsSelectable="true"
             android:text="Atestamos para os devidos fins que o(a) paciente Carlos Mendes esteve sob nossos cuidados profissionais..."
             android:textColor="#444444"
             android:textSize="13sp" />

@@ -52,7 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Olá, Rafael!"
+                android:text="Olá!"
+                tools:text="Olá, Rafael!"
                 android:textColor="#112222"
                 android:textSize="26sp"
                 android:textStyle="bold"
@@ -64,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Terça-feira, 9 de setembro de 2026"
+                tools:text="Terça-feira, 3 de novembro de 2026"
                 android:textColor="#557777"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -159,6 +160,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
+                        android:id="@+id/tvContadorSessoes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -170,73 +172,24 @@
                         android:textSize="11sp" />
                 </RelativeLayout>
 
-                <!-- Item Agenda 1 -->
-                <LinearLayout
+                <!-- Mensagem quando não há sessões no dia -->
+                <TextView
+                    android:id="@+id/tvSemSessoes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_card_white"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="14:00"
-                        android:textColor="#2E8B82"
-                        android:textStyle="bold" />
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fernanda Lima" android:textColor="#222222" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Unimed" android:textColor="#777777" android:textSize="12sp" />
-                    </LinearLayout>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_tag_orange"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="2dp"
-                        android:text="pendente"
-                        android:textColor="#B85D10"
-                        android:textSize="11sp" />
-                </LinearLayout>
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="Carregando a agenda..."
+                    android:textColor="#777777"
+                    android:textSize="13sp" />
 
-                <!-- Item Agenda 2 -->
+                <!-- Sessões de hoje: preenchido pelo MainActivity com item_sessao_hoje.xml -->
                 <LinearLayout
+                    android:id="@+id/containerSessoesHoje"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_card_white"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="17:00"
-                        android:textColor="#2E8B82"
-                        android:textStyle="bold" />
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Luciana Rocha" android:textColor="#222222" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Particular" android:textColor="#777777" android:textSize="12sp" />
-                    </LinearLayout>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_tag_green"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="2dp"
-                        android:text="confirmado"
-                        android:textColor="#1E7E4A"
-                        android:textSize="11sp" />
-                </LinearLayout>
+                    android:orientation="vertical" />
 
                 <Button
                     android:id="@+id/btnVerAgendaCompleta"

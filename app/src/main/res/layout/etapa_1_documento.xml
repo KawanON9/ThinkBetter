@@ -12,57 +12,21 @@
         android:textSize="13sp"
         android:layout_marginBottom="12dp" />
 
-    <!-- Card Carlos Mendes (Usado no clique para avançar) -->
-    <LinearLayout
-        android:id="@+id/cardCarlosMendes"
+    <!-- Mensagem de "carregando" / erro / lista vazia -->
+    <TextView
+        android:id="@+id/tvMensagemPacientesDoc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/bg_card_white"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="12dp"
+        android:text="Carregando pacientes..."
+        android:textColor="#668888"
+        android:textSize="13sp" />
 
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/bg_circle_teal"
-            android:gravity="center"
-            android:text="👤"
-            android:textSize="18sp" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carlos Mendes"
-                android:textColor="#222222"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Particular"
-                android:textColor="#668888"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="→"
-            android:textColor="#2E8B82"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+    <!-- Pacientes do banco: preenchido pela EmissaoDocumentoActivity com item_paciente_documento.xml -->
+    <LinearLayout
+        android:id="@+id/containerPacientesDoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 
 </LinearLayout>

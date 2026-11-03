@@ -2,21 +2,30 @@ package com.example.thinkbetter;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
+import com.example.thinkbetter.api.ApiClient;
+import com.example.thinkbetter.api.Formatos;
+import com.example.thinkbetter.api.SessaoAgenda;
+import com.example.thinkbetter.api.Sessao;
+import com.example.thinkbetter.api.StatusResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/** Atendimentos de HOJE do psicólogo logado, vindos do banco. */
 public class AtendimentosActivity extends MenuJava {
 
     private RecyclerView recyclerView;
     private AtendimentoAdapter adapter;
-    private List<Atendimento> atendimentoList;
+    private final List<Atendimento> atendimentoList = new ArrayList<>();
     private TextView tvSubtitle;
 
     @Override
@@ -30,27 +39,72 @@ public class AtendimentosActivity extends MenuJava {
         tvSubtitle = findViewById(R.id.tvSubtitle);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Obtém a data atual do sistema formatada (ex: "01/11")
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM", new Locale("pt", "BR"));
-        String dataAtual = sdf.format(Calendar.getInstance().getTime());
-
-        // Populando a lista geral (com atendimentos simulados para a data de hoje para aparecerem imediatamente)
-        List<Atendimento> todosAtendimentos = new ArrayList<>();
-        todosAtendimentos.add(new Atendimento("14:00", dataAtual, "Fernanda Lima", "Avaliação · Unimed", "pendente", 0));
-        todosAtendimentos.add(new Atendimento("17:00", dataAtual, "Luciana Rocha", "Retorno · Particular", "confirmado", 1));
-        todosAtendimentos.add(new Atendimento("14:00", "08/09", "Outro Paciente", "Consulta Antiga", "realizado", 2));
-
-        // Filtra estritamente para o dia atual
-        atendimentoList = new ArrayList<>();
-        for (Atendimento item : todosAtendimentos) {
-            if (item.getData().equals(dataAtual)) {
-                atendimentoList.add(item);
-            }
-        }
-
-        tvSubtitle.setText(atendimentoList.size() + " no total para hoje");
-
-        adapter = new AtendimentoAdapter(atendimentoList);
+        adapter = new AtendimentoAdapter(atendimentoList, this::confirmarAtendimento);
         recyclerView.setAdapter(adapter);
+    }
+
+    /** Recarrega ao voltar para a tela, para mostrar consultas recém-marcadas. */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        carregarAtendimentosDeHoje();
+    }
+
+    /** GET /psicologos/{id}/agenda?data=hoje */
+    private void carregarAtendimentosDeHoje() {
+        tvSubtitle.setText("Carregando...");
+        ApiClient.api().agendaDoDia(Sessao.id(this), Formatos.hojeIso())
+                .enqueue(new Callback<List<SessaoAgenda>>() {
+                    @Override
+                    public void onResponse(Call<List<SessaoAgenda>> call, Response<List<SessaoAgenda>> resposta) {
+                        if (!resposta.isSuccessful() || resposta.body() == null) {
+                            tvSubtitle.setText(ApiClient.mensagemDeErro(resposta));
+                            return;
+                        }
+                        atendimentoList.clear();
+                        for (SessaoAgenda s : resposta.body()) {
+                            String data = Formatos.dataBr(s.data).substring(0, 5); // "03/11"
+                            boolean confirmada = "Confirmada".equals(s.status);
+                            atendimentoList.add(new Atendimento(s.idConsulta, s.hora, data, s.nomePaciente,
+                                    nomeDoTipo(s.tipo) + " · " + s.plano + " · " + s.modalidade,
+                                    s.status.toLowerCase(), confirmada ? 1 : 0));
+                        }
+                        adapter.notifyDataSetChanged();
+                        tvSubtitle.setText(atendimentoList.size() + " no total para hoje");
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<SessaoAgenda>> call, Throwable t) {
+                        tvSubtitle.setText(ApiClient.mensagemDeFalha(t));
+                    }
+                });
+    }
+
+    /** POST /consultas/{id}/confirmar?psicologo={id} e recarrega a lista. */
+    private void confirmarAtendimento(Atendimento atendimento) {
+        ApiClient.api().confirmarConsultaComoPsicologo(atendimento.getIdConsulta(), Sessao.id(this))
+                .enqueue(new Callback<StatusResponse>() {
+                    @Override
+                    public void onResponse(Call<StatusResponse> call, Response<StatusResponse> resposta) {
+                        String msg = resposta.isSuccessful()
+                                ? "Atendimento de " + atendimento.getNomePaciente() + " confirmado!"
+                                : ApiClient.mensagemDeErro(resposta);
+                        Toast.makeText(AtendimentosActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        carregarAtendimentosDeHoje();
+                    }
+
+                    @Override
+                    public void onFailure(Call<StatusResponse> call, Throwable t) {
+                        Toast.makeText(AtendimentosActivity.this, ApiClient.mensagemDeFalha(t), Toast.LENGTH_LONG).show();
+                        carregarAtendimentosDeHoje();
+                    }
+                });
+    }
+
+    /** Valores do banco (sem acento) → texto da tela. */
+    private static String nomeDoTipo(String tipo) {
+        if ("Avaliacao".equals(tipo)) return "Avaliação";
+        if ("Sessao".equals(tipo)) return "Sessão";
+        return tipo;
     }
 }

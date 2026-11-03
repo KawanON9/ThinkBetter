@@ -15,9 +15,20 @@ import java.util.List;
 public class AgendaAtendimentoAdapter extends RecyclerView.Adapter<AgendaAtendimentoAdapter.ViewHolder> {
 
     private final List<Atendimento> listaAtendimentos;
+    private final OnConfirmarListener onConfirmar;
+
+    /** Chamado quando o psicólogo toca em "Confirmar" num atendimento pendente. */
+    public interface OnConfirmarListener {
+        void onConfirmar(Atendimento atendimento);
+    }
 
     public AgendaAtendimentoAdapter(List<Atendimento> listaAtendimentos) {
+        this(listaAtendimentos, null);
+    }
+
+    public AgendaAtendimentoAdapter(List<Atendimento> listaAtendimentos, OnConfirmarListener onConfirmar) {
         this.listaAtendimentos = listaAtendimentos;
+        this.onConfirmar = onConfirmar;
     }
 
     @NonNull
@@ -39,13 +50,21 @@ public class AgendaAtendimentoAdapter extends RecyclerView.Adapter<AgendaAtendim
         // Na Agenda, garantimos que o botão de iniciar fica OCULTO e o de indisponibilizar VISÍVEL
         holder.btnIniciar.setVisibility(View.GONE);
         holder.btnIndisponibilizar.setVisibility(View.VISIBLE);
+        holder.btnIndisponibilizar.setEnabled(true); // a linha pode ter sido reaproveitada de um "Confirmar" já tocado
 
         // Estilização visual e controle do botão baseado no status
         if (atendimento.getTipoStatus() == 0) {
             // Pendente
             holder.tvStatus.setBackgroundResource(R.drawable.bg_tag_orange);
             holder.tvStatus.setTextColor(Color.parseColor("#B85D10"));
-            holder.btnIndisponibilizar.setVisibility(View.GONE); // Não indisponibiliza horário com paciente pendente direto por aqui
+            // Pendente vindo do banco → o mesmo botão vira "Confirmar"
+            if (onConfirmar != null && atendimento.getIdConsulta() > 0) {
+                holder.btnIndisponibilizar.setText("Confirmar");
+                holder.btnIndisponibilizar.setTextColor(Color.parseColor("#1E7E4A"));
+                holder.btnIndisponibilizar.setVisibility(View.VISIBLE);
+            } else {
+                holder.btnIndisponibilizar.setVisibility(View.GONE);
+            }
         } else if (atendimento.getTipoStatus() == 1) {
             // Confirmado
             holder.tvStatus.setBackgroundResource(R.drawable.bg_tag_green);
@@ -69,6 +88,14 @@ public class AgendaAtendimentoAdapter extends RecyclerView.Adapter<AgendaAtendim
 
         // Lógica de Alternância (Toggle) do botão de Indisponibilizar/Livre
         holder.btnIndisponibilizar.setOnClickListener(v -> {
+            if (atendimento.getTipoStatus() == 0) {
+                // Pendente: confirmar pela API (quem chama recarrega a lista)
+                if (onConfirmar != null) {
+                    holder.btnIndisponibilizar.setEnabled(false);
+                    onConfirmar.onConfirmar(atendimento);
+                }
+                return;
+            }
             if (atendimento.getTipoStatus() == 2) {
                 // De Livre para Indisponível
                 atendimento.setNomePaciente("Indisponível");

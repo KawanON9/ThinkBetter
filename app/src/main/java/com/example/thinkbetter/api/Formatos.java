@@ -45,4 +45,57 @@ public final class Formatos {
         int resto = (soma * 10) % 11;
         return resto == 10 ? 0 : resto;
     }
+
+    private static final java.util.Locale PT_BR = new java.util.Locale("pt", "BR");
+
+    /** Data de hoje por extenso: "Terça-feira, 3 de novembro de 2026". */
+    public static String hojePorExtenso() {
+        String d = new java.text.SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy", PT_BR)
+                .format(new java.util.Date());
+        return d.isEmpty() ? d : d.substring(0, 1).toUpperCase(PT_BR) + d.substring(1);
+    }
+
+    /** Data de hoje no formato da API: "2026-11-03". */
+    public static String hojeIso() {
+        return new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US).format(new java.util.Date());
+    }
+
+    /** "2026-11-04T10:00:00" → "Qua, 4 de nov · 10:00" (como no card do paciente). */
+    public static String dataHoraCurta(String iso) {
+        if (iso == null || iso.length() < 16) return "";
+        try {
+            java.util.Date d = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm", java.util.Locale.US)
+                    .parse(iso.substring(0, 16));
+            String dia = new java.text.SimpleDateFormat("EEE", PT_BR).format(d).replace(".", "");
+            String resto = new java.text.SimpleDateFormat("d 'de' MMM · HH:mm", PT_BR).format(d).replace(".", "");
+            return dia.substring(0, 1).toUpperCase(PT_BR) + dia.substring(1) + ", " + resto;
+        } catch (java.text.ParseException e) {
+            return iso;
+        }
+    }
+
+    /** "2026-11-04T10:00:00" → "04/11/2026" */
+    public static String dataDeDataHora(String iso) {
+        return iso == null || iso.length() < 10 ? "" : dataBr(iso.substring(0, 10));
+    }
+
+    /** "2026-11-04T10:00:00" → "10:00" */
+    public static String horaDeDataHora(String iso) {
+        return iso == null || iso.length() < 16 ? "" : iso.substring(11, 16);
+    }
+
+    /** "Rafael Costa" → "Rafael" */
+    public static String primeiroNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) return "";
+        return nome.trim().split("\\s+")[0];
+    }
+
+    /** "Rafael Costa" → "RC" · "Ana" → "A" */
+    public static String iniciais(String nome) {
+        if (nome == null || nome.trim().isEmpty()) return "";
+        String[] p = nome.trim().split("\\s+");
+        String a = p[0].substring(0, 1);
+        String b = p.length > 1 ? p[p.length - 1].substring(0, 1) : "";
+        return (a + b).toUpperCase(PT_BR);
+    }
 }

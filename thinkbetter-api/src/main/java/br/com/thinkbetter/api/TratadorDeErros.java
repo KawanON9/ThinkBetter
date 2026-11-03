@@ -45,6 +45,7 @@ public class TratadorDeErros {
         // Usa o nome da restrição UNIQUE do banco (ex.: 'Pacientes.uq_pacientes_cpf')
         String msg = detalhe.contains("uq_pacientes_cpf") ? "CPF já cadastrado"
                 : detalhe.contains("uq_usuarios_email") ? "E-mail já cadastrado"
+                : detalhe.contains("uq_consultas_horario") ? "Este horário acabou de ser ocupado. Escolha outro."
                 : "Registro já cadastrado";
         return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErroResponse(msg));
     }

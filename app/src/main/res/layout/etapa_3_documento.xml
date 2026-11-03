@@ -6,25 +6,42 @@
     xmlns:andorid="http://schemas.android.com/tools"
     android:orientation="vertical">
 
+    <!-- Resumo: paciente e tipo escolhidos -->
     <TextView
+        android:id="@+id/tvResumoEtapa3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_card_teal_light"
+        android:padding="12dp"
+        android:textColor="#222222"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tvLabelPeriodo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PERÍODO"
+        android:text="PERÍODO (OPCIONAL)"
         android:textColor="#2E8B82"
         android:textSize="10sp"
         android:textStyle="bold" />
 
     <EditText
+        android:id="@+id/edtPeriodo"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/bg_card_white"
-        android:hint="Ex: 10/09/2026 a 12/09/2026"
+        android:digits="0123456789/ a"
+        android:hint="Ex: 10/09/2026 a 12/09/2026 (ou só uma data)"
+        android:importantForAutofill="no"
+        android:inputType="text"
         android:paddingHorizontal="12dp"
         android:textSize="13sp" />
 
     <TextView
+        android:id="@+id/tvLabelCid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CÓDIGO CID (OPCIONAL)"
@@ -33,16 +50,21 @@
         android:textStyle="bold" />
 
     <EditText
+        android:id="@+id/edtCid"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/bg_card_white"
         android:hint="Ex: F41.1"
+        android:importantForAutofill="no"
+        android:inputType="textCapCharacters|textNoSuggestions"
+        android:maxLength="6"
         android:paddingHorizontal="12dp"
         android:textSize="13sp" />
 
     <TextView
+        android:id="@+id/tvLabelDescricao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DESCRIÇÃO / JUSTIFICATIVA"
@@ -51,6 +73,7 @@
         android:textStyle="bold" />
 
     <EditText
+        android:id="@+id/edtDescricao"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="4dp"
@@ -59,7 +82,10 @@
         android:gravity="top"
         android:padding="12dp"
         android:textSize="13sp"
-        android:text="Descreva os destalhes..."/>
+        android:hint="Descreva os detalhes..."
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine|textCapSentences"
+        android:maxLength="2000"/>
 
     <!-- Botão Pré-visualizar -->
     <Button

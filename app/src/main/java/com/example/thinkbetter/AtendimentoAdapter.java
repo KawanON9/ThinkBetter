@@ -16,9 +16,16 @@ import java.util.List;
 public class AtendimentoAdapter extends RecyclerView.Adapter<AtendimentoAdapter.AtendimentoViewHolder> {
 
     private final List<Atendimento> listaAtendimentos;
+    private final AgendaAtendimentoAdapter.OnConfirmarListener onConfirmar;
 
     public AtendimentoAdapter(List<Atendimento> listaAtendimentos) {
+        this(listaAtendimentos, null);
+    }
+
+    public AtendimentoAdapter(List<Atendimento> listaAtendimentos,
+                              AgendaAtendimentoAdapter.OnConfirmarListener onConfirmar) {
         this.listaAtendimentos = listaAtendimentos;
+        this.onConfirmar = onConfirmar;
     }
 
     @NonNull
@@ -44,6 +51,17 @@ public class AtendimentoAdapter extends RecyclerView.Adapter<AtendimentoAdapter.
         if (atendimento.getTipoStatus() == 0) {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_tag_orange);
             holder.tvStatus.setTextColor(Color.parseColor("#B85D10"));
+            // Pendente vindo do banco → botão "Confirmar" ao lado do "Iniciar"
+            if (onConfirmar != null && atendimento.getIdConsulta() > 0) {
+                holder.btnIndisponibilizar.setText("Confirmar");
+                holder.btnIndisponibilizar.setTextColor(Color.parseColor("#1E7E4A"));
+                holder.btnIndisponibilizar.setEnabled(true);
+                holder.btnIndisponibilizar.setVisibility(View.VISIBLE);
+                holder.btnIndisponibilizar.setOnClickListener(v -> {
+                    holder.btnIndisponibilizar.setEnabled(false);
+                    onConfirmar.onConfirmar(atendimento);
+                });
+            }
         } else if (atendimento.getTipoStatus() == 1) {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_tag_green);
             holder.tvStatus.setTextColor(Color.parseColor("#1E7E4A"));

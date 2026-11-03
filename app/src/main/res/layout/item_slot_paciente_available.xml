@@ -19,6 +19,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tvSlotStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -27,6 +28,7 @@
         android:textColor="#2E8B82" />
 
     <TextView
+        android:id="@+id/tvSlotIcone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
