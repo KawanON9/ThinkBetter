@@ -347,7 +347,7 @@ private boolean formularioCompleto() {
                 edtConfirmarSenha.setText("");
                 Toast.makeText(CadastroUsuarioActivity.this,
                         "Cadastro realizado! Faça login para continuar.", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(CadastroUsuarioActivity.this, LoginActivity.class));
+                // Volta para o Login que abriu o cadastro (sem abrir um segundo Login por cima)
                 finish();
             }
 

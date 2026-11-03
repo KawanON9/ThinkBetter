@@ -52,6 +52,20 @@ public class MenuJava extends AppCompatActivity {
         }
 
         setupDrawerActions();
+
+        // Botão/gesto "voltar": a tela inicial do psicólogo pede confirmação para sair;
+        // as demais voltam à anterior e ganham o botão ← ao lado do ☰.
+        boolean telaInicial = !paciente && (this instanceof MainActivity);
+        Navegacao.configurarVoltar(this, drawerLayout, telaInicial, this::tratarVoltar);
+        if (!telaInicial) Navegacao.adicionarBotaoVoltar(this);
+    }
+
+    /**
+     * Sobrescreva para tratar o "voltar" antes do padrão (ex.: voltar uma etapa).
+     * @return true se tratou; false para voltar à tela anterior.
+     */
+    protected boolean tratarVoltar() {
+        return false;
     }
 
     private void setupDrawerActions() {
@@ -66,35 +80,17 @@ public class MenuJava extends AppCompatActivity {
                     // Tela comum aberta por um paciente: usa a navegação do paciente
                     MenuPacienteJava.navegarComoPaciente(MenuJava.this, id);
                 } else if (id == R.id.nav_inicio) {
-                    if (!(MenuJava.this instanceof MainActivity)) {
-                        startActivity(new Intent(MenuJava.this, MainActivity.class));
-                        finish();
-                    }
+                    Navegacao.irPara(MenuJava.this, MainActivity.class, MainActivity.class);
                 } else if (id == R.id.nav_agenda) {
-                    if (!(MenuJava.this instanceof AgendaActivity)) {
-                        startActivity(new Intent(MenuJava.this, AgendaActivity.class));
-                        finish();
-                    }
+                    Navegacao.irPara(MenuJava.this, AgendaActivity.class, MainActivity.class);
                 } else if (id == R.id.nav_atendimentos) {
-                    if (!(MenuJava.this instanceof AtendimentosActivity)) {
-                        startActivity(new Intent(MenuJava.this, AtendimentosActivity.class));
-                        finish();
-                    }
+                    Navegacao.irPara(MenuJava.this, AtendimentosActivity.class, MainActivity.class);
                 } else if (id == R.id.nav_pacientes) {
-                    if (!(MenuJava.this instanceof PacienteActivity)) {
-                        startActivity(new Intent(MenuJava.this, PacienteActivity.class));
-                        finish();
-                    }
+                    Navegacao.irPara(MenuJava.this, PacienteActivity.class, MainActivity.class);
                 } else if (id == R.id.nav_documentos) {
-                    if (!(MenuJava.this instanceof EmissaoDocumentoActivity)) {
-                        startActivity(new Intent(MenuJava.this, EmissaoDocumentoActivity.class));
-                        finish();
-                    }
+                    Navegacao.irPara(MenuJava.this, EmissaoDocumentoActivity.class, MainActivity.class);
                 } else if (id == R.id.nav_configuracoes) {
-                    if (!(MenuJava.this instanceof ConfiguracoesActivity)) {
-                        startActivity(new Intent(MenuJava.this, ConfiguracoesActivity.class));
-                        finish();
-                    }
+                    Navegacao.irPara(MenuJava.this, ConfiguracoesActivity.class, MainActivity.class);
                 } else if (id == R.id.nav_sair) {
                     MenuPacienteJava.sairDoSistema(MenuJava.this);
                 }
@@ -119,14 +115,6 @@ public class MenuJava extends AppCompatActivity {
                     }
                 }
             });
-        }
-    }
-
-    public void onBackPressedDispatcher() {
-        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 }

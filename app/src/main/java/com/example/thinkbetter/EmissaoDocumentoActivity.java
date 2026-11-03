@@ -49,6 +49,7 @@ public class EmissaoDocumentoActivity extends MenuJava {
     private String descricaoDigitada = "";
     private NovoDocumentoRequest pedidoAtual;        // usado na prévia e na emissão
     private DocumentoGerado documentoEmitido;
+    private int etapaAtual = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +87,18 @@ public class EmissaoDocumentoActivity extends MenuJava {
         irParaEtapa(1);
     }
 
+    /** Voltar nas etapas 2 a 4 = etapa anterior. Na 1 e na 5 (já emitido), sai da tela. */
+    @Override
+    protected boolean tratarVoltar() {
+        if (etapaAtual >= 2 && etapaAtual <= 4) {
+            irParaEtapa(etapaAtual - 1);
+            return true;
+        }
+        return false;
+    }
+
     public void irParaEtapa(int numeroEtapa) {
+        etapaAtual = numeroEtapa;
         containerEtapas.removeAllViews();
         atualizarSteppersVisuais(numeroEtapa);
 

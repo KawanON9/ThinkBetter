@@ -41,6 +41,12 @@ public class MenuPacienteJava extends AppCompatActivity {
         }
 
         setupDrawerActions();
+
+        // Botão/gesto "voltar": a tela inicial do paciente pede confirmação para sair;
+        // as demais voltam à anterior e ganham o botão ← ao lado do ☰.
+        boolean telaInicial = this instanceof MainPacienteActivity;
+        Navegacao.configurarVoltar(this, drawerLayout, telaInicial, null);
+        if (!telaInicial) Navegacao.adicionarBotaoVoltar(this);
     }
 
     private void setupDrawerActions() {
@@ -65,25 +71,13 @@ public class MenuPacienteJava extends AppCompatActivity {
      */
     static void navegarComoPaciente(AppCompatActivity tela, int id) {
         if (id == R.id.nav_paciente_inicio) {
-            if (!(tela instanceof MainPacienteActivity)) {
-                tela.startActivity(new Intent(tela, MainPacienteActivity.class));
-                tela.finish();
-            }
+            Navegacao.irPara(tela, MainPacienteActivity.class, MainPacienteActivity.class);
         } else if (id == R.id.nav_paciente_agendar) {
-            if (!(tela instanceof AgendarConsultaActivity)) {
-                tela.startActivity(new Intent(tela, AgendarConsultaActivity.class));
-                tela.finish();
-            }
+            Navegacao.irPara(tela, AgendarConsultaActivity.class, MainPacienteActivity.class);
         } else if (id == R.id.nav_paciente_documentos) {
-            if (!(tela instanceof MeusDocumentosActivity)) {
-                tela.startActivity(new Intent(tela, MeusDocumentosActivity.class));
-                tela.finish();
-            }
+            Navegacao.irPara(tela, MeusDocumentosActivity.class, MainPacienteActivity.class);
         } else if (id == R.id.nav_paciente_configuracoes) {
-            if (!(tela instanceof ConfiguracoesActivity)) {
-                tela.startActivity(new Intent(tela, ConfiguracoesActivity.class));
-                tela.finish();
-            }
+            Navegacao.irPara(tela, ConfiguracoesActivity.class, MainPacienteActivity.class);
         } else if (id == R.id.nav_paciente_sair) {
             sairDoSistema(tela);
         }
@@ -110,14 +104,6 @@ public class MenuPacienteJava extends AppCompatActivity {
                     }
                 }
             });
-        }
-    }
-
-    public void onBackPressedDispatcher() {
-        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 }
