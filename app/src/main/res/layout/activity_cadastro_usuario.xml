@@ -160,6 +160,53 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- CPF e Data de nascimento (obrigatórios na tabela Pacientes) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1.2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/CadastroFieldLabel"
+                            android:text="@string/label_cpf" />
+
+                        <EditText
+                            android:id="@+id/edtCpf"
+                            style="@style/CadastroInput"
+                            android:digits="0123456789.-"
+                            android:hint="@string/hint_cpf"
+                            android:inputType="number"
+                            android:maxLength="14" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/CadastroFieldLabel"
+                            android:text="@string/label_nascimento" />
+
+                        <EditText
+                            android:id="@+id/edtNascimento"
+                            style="@style/CadastroInput"
+                            android:digits="0123456789/"
+                            android:hint="@string/hint_nascimento"
+                            android:inputType="number"
+                            android:maxLength="10" />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <TextView
                     style="@style/CadastroFieldLabel"
                     android:text="@string/label_email" />
@@ -218,18 +265,115 @@
                     style="@style/CadastroInput"
                     android:autofillHints="postalAddress"
                     android:hint="@string/hint_endereco"
-                    android:inputType="textPostalAddress|textCapWords|textNoSuggestions" />
+                    android:inputType="textPostalAddress|textCapWords|textNoSuggestions"
+                    android:maxLength="120" />
+
+                <!-- Número + Complemento -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="0.8"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/CadastroFieldLabel"
+                            android:text="@string/label_numero" />
+
+                        <EditText
+                            android:id="@+id/edtNumero"
+                            style="@style/CadastroInput"
+                            android:hint="@string/hint_numero"
+                            android:importantForAutofill="no"
+                            android:inputType="textCapCharacters|textNoSuggestions"
+                            android:maxLength="10" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1.2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/CadastroFieldLabel"
+                            android:text="@string/label_complemento" />
+
+                        <EditText
+                            android:id="@+id/edtComplemento"
+                            style="@style/CadastroInput"
+                            android:hint="@string/hint_complemento"
+                            android:importantForAutofill="no"
+                            android:inputType="textCapSentences|textNoSuggestions"
+                            android:maxLength="80" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <TextView
                     style="@style/CadastroFieldLabel"
-                    android:text="@string/label_complemento" />
+                    android:text="@string/label_bairro" />
 
                 <EditText
-                    android:id="@+id/edtComplemento"
+                    android:id="@+id/edtBairro"
                     style="@style/CadastroInput"
-                    android:hint="@string/hint_complemento"
+                    android:hint="@string/hint_bairro"
                     android:importantForAutofill="no"
-                    android:inputType="textCapSentences|textNoSuggestions" />
+                    android:inputType="textCapWords|textNoSuggestions"
+                    android:maxLength="80" />
+
+                <!-- Cidade + UF -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/CadastroFieldLabel"
+                            android:text="@string/label_cidade" />
+
+                        <EditText
+                            android:id="@+id/edtCidade"
+                            style="@style/CadastroInput"
+                            android:hint="@string/hint_cidade"
+                            android:importantForAutofill="no"
+                            android:inputType="textCapWords|textNoSuggestions"
+                            android:maxLength="80" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/CadastroFieldLabel"
+                            android:text="@string/label_uf" />
+
+                        <EditText
+                            android:id="@+id/edtUf"
+                            style="@style/CadastroInput"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                            android:hint="@string/hint_uf"
+                            android:importantForAutofill="no"
+                            android:inputType="textCapCharacters|textNoSuggestions"
+                            android:maxLength="2" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <!-- ===== Card: Senha de acesso ===== -->

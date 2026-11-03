@@ -70,6 +70,7 @@ public class MenuPacienteJava extends AppCompatActivity {
                     Toast.makeText(MenuPacienteJava.this, "Configurações", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_paciente_sair) {
                     Toast.makeText(MenuPacienteJava.this, "Saindo do sistema...", Toast.LENGTH_SHORT).show();
+                    com.example.thinkbetter.api.Sessao.sair(MenuPacienteJava.this); // esquece o usuário logado
                     Intent intent = new Intent(MenuPacienteJava.this, LoginActivity.class);
                     startActivity(intent);
                     finish();

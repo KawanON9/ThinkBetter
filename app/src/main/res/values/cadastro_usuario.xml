@@ -31,6 +31,10 @@
     <string name="hint_nome">Ex: Maria</string>
     <string name="label_sobrenome">SOBRENOME</string>
     <string name="hint_sobrenome">Ex: Silva</string>
+    <string name="label_cpf">CPF</string>
+    <string name="hint_cpf">000.000.000-00</string>
+    <string name="label_nascimento">NASCIMENTO</string>
+    <string name="hint_nascimento">dd/mm/aaaa</string>
     <string name="label_email">ENDEREÇO DE E-MAIL</string>
     <string name="hint_email">Ex: maria@email.com</string>
     <string name="label_telefone">TELEFONE (COM DDD)</string>
@@ -38,8 +42,16 @@
 
     <string name="label_cep">CEP</string>
     <string name="hint_cep">00000-000</string>
-    <string name="label_endereco">ENDEREÇO</string>
-    <string name="hint_endereco">Rua, número, bairro</string>
+    <string name="label_endereco">RUA / AVENIDA</string>
+    <string name="hint_endereco">Ex: Av. Paulista</string>
+    <string name="label_numero">NÚMERO</string>
+    <string name="hint_numero">Ex: 456</string>
+    <string name="label_bairro">BAIRRO (OPCIONAL)</string>
+    <string name="hint_bairro">Ex: Bela Vista</string>
+    <string name="label_cidade">CIDADE</string>
+    <string name="hint_cidade">Ex: São Paulo</string>
+    <string name="label_uf">UF</string>
+    <string name="hint_uf">SP</string>
     <string name="label_complemento">COMPLEMENTO (OPCIONAL)</string>
     <string name="hint_complemento">Apto, bloco, sala…</string>
 

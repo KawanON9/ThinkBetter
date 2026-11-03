@@ -11,6 +11,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.thinkbetter.api.ApiClient;
+import com.example.thinkbetter.api.LoginRequest;
+import com.example.thinkbetter.api.LoginResponse;
+import com.example.thinkbetter.api.Sessao;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText etEmail, etSenha;
@@ -79,12 +88,52 @@ public class LoginActivity extends AppCompatActivity {
         tvEsqueciSenha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, EsqueciSenhaActivity.class);
-                startActivity(intent);
+                Toast.makeText(LoginActivity.this, "Tela de recuperação de senha", Toast.LENGTH_SHORT).show();
             }
         });
         // Abrir tela de cadastro
         findViewById(R.id.tvCriarConta).setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, CadastroUsuarioActivity.class)));
+    }
+
+    /**
+     * POST /login. A API responde com o tipo do usuário, que decide a tela:
+     * PSICOLOGO → MainActivity, PACIENTE → MainPacienteActivity.
+     */
+    private void entrar(String email, String senha) {
+        btnEntrar.setEnabled(false);
+        btnEntrar.setText("Entrando...");
+
+        ApiClient.api().login(new LoginRequest(email, senha)).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> resposta) {
+                btnEntrar.setEnabled(true);
+                btnEntrar.setText("Entrar");
+
+                if (!resposta.isSuccessful() || resposta.body() == null) {
+                    // 401 → "E-mail ou senha incorretos"
+                    Toast.makeText(LoginActivity.this,
+                            ApiClient.mensagemDeErro(resposta), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                LoginResponse usuario = resposta.body();
+                Sessao.salvar(LoginActivity.this, usuario);
+
+                Class<?> destino = LoginResponse.PSICOLOGO.equals(usuario.tipo)
+                        ? MainActivity.class
+                        : MainPacienteActivity.class;
+                startActivity(new Intent(LoginActivity.this, destino));
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                btnEntrar.setEnabled(true);
+                btnEntrar.setText("Entrar");
+                Toast.makeText(LoginActivity.this,
+                        ApiClient.mensagemDeFalha(t), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

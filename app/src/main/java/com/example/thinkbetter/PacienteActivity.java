@@ -13,8 +13,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.thinkbetter.api.ApiClient;
+import com.example.thinkbetter.api.Formatos;
+import com.example.thinkbetter.api.PacienteResumo;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PacienteActivity extends MenuJava {
 
@@ -40,15 +48,8 @@ public class PacienteActivity extends MenuJava {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Populando a lista com os dados extraídos da imagem de referência
+        // A lista começa vazia e é preenchida com os dados do banco (GET /pacientes)
         pacienteList = new ArrayList<>();
-        pacienteList.add(new Paciente("Carlos Mendes", "Particular · (11) 9 9000-0002"));
-        pacienteList.add(new Paciente("Fernanda Lima", "Unimed · (11) 9 9000-0003"));
-        pacienteList.add(new Paciente("João Pereira", "Bradesco Saúde · (11) 9 9000-0004"));
-        pacienteList.add(new Paciente("Luciana Rocha", "Particular · (11) 9 9000-0005"));
-        pacienteList.add(new Paciente("Maria Silva", "Amil · (11) 9 9000-0001"));
-        pacienteList.add(new Paciente("Ricardo Barros", "Sul América · (11) 9 9000-0006"));
-
         adapter = new PacienteAdapter(pacienteList);
         recyclerView.setAdapter(adapter);
 
@@ -72,5 +73,42 @@ public class PacienteActivity extends MenuJava {
         });
 
          */
+    }
+
+    /** Recarrega sempre que a tela volta a aparecer (ex.: depois de um cadastro). */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        carregarPacientes();
+    }
+
+    private void carregarPacientes() {
+        ApiClient.api().listarPacientes().enqueue(new Callback<List<PacienteResumo>>() {
+            @Override
+            public void onResponse(Call<List<PacienteResumo>> call, Response<List<PacienteResumo>> resposta) {
+                if (!resposta.isSuccessful() || resposta.body() == null) {
+                    Toast.makeText(PacienteActivity.this,
+                            ApiClient.mensagemDeErro(resposta), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                List<Paciente> lista = new ArrayList<>();
+                for (PacienteResumo p : resposta.body()) {
+                    // Mesmo formato de antes: "Unimed · (11) 9 9000-0003"
+                    String detalhes = p.plano + " · " + Formatos.telefone(p.telefone);
+                    lista.add(new Paciente(p.id, p.nome + " " + p.sobrenome, detalhes));
+                }
+                adapter.atualizar(lista);
+                if (lista.isEmpty()) {
+                    Toast.makeText(PacienteActivity.this,
+                            "Nenhum paciente cadastrado ainda", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PacienteResumo>> call, Throwable t) {
+                Toast.makeText(PacienteActivity.this,
+                        ApiClient.mensagemDeFalha(t), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

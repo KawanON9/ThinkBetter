@@ -31,6 +31,20 @@ public class PacienteAdapter extends RecyclerView.Adapter<PacienteAdapter.Pacien
         Paciente paciente = listaPacientes.get(position);
         holder.tvNome.setText(paciente.getNome());
         holder.tvDetalhes.setText(paciente.getDetalhes());
+
+        // Toque no paciente → Prontuário, levando o ID para buscar os dados na API
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), ProntuarioActivity.class);
+            intent.putExtra(ProntuarioActivity.EXTRA_ID_PACIENTE, paciente.getId());
+            v.getContext().startActivity(intent);
+        });
+    }
+
+    /** Troca a lista exibida (usado quando os dados chegam da API). */
+    public void atualizar(List<Paciente> novos) {
+        listaPacientes.clear();
+        listaPacientes.addAll(novos);
+        notifyDataSetChanged();
     }
 
     @Override

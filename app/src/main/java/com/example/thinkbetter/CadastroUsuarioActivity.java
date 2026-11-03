@@ -23,6 +23,20 @@ import android.widget.AdapterView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.example.thinkbetter.api.ApiClient;
+import com.example.thinkbetter.api.CadastroPacienteRequest;
+import com.example.thinkbetter.api.CadastroResponse;
+import com.example.thinkbetter.api.Formatos;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Tela de Cadastro de Usuário.
  * Estende AppCompatActivity (e não BaseActivity/MenuJava) porque é aberta
@@ -31,6 +45,8 @@ import androidx.appcompat.widget.SwitchCompat;
 public class CadastroUsuarioActivity extends AppCompatActivity {
 
     private EditText edtNome, edtSobrenome, edtEmail, edtTelefone;
+    private EditText edtCpf, edtNascimento;
+    private EditText edtNumero, edtBairro, edtCidade, edtUf;
     private EditText edtCep, edtEndereco, edtComplemento, edtCarteirinha;
     private Spinner spinnerPlanoSaude;
     private static final int SENHA_TAMANHO_MINIMO = 8;
@@ -57,12 +73,18 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
 
         edtNome = findViewById(R.id.edtNome);
         edtSobrenome = findViewById(R.id.edtSobrenome);
+        edtCpf = findViewById(R.id.edtCpf);
+        edtNascimento = findViewById(R.id.edtNascimento);
 
         edtEmail = findViewById(R.id.edtEmail);
         edtTelefone = findViewById(R.id.edtTelefone);
         edtCep = findViewById(R.id.edtCep);
         edtEndereco = findViewById(R.id.edtEndereco);
         edtComplemento = findViewById(R.id.edtComplemento);
+        edtNumero = findViewById(R.id.edtNumero);
+        edtBairro = findViewById(R.id.edtBairro);
+        edtCidade = findViewById(R.id.edtCidade);
+        edtUf = findViewById(R.id.edtUf);
 
         edtSenha = findViewById(R.id.edtSenha);
         edtConfirmarSenha = findViewById(R.id.edtConfirmarSenha);
@@ -102,6 +124,8 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         // Máscaras simples
         edtTelefone.addTextChangedListener(new MascaraWatcher(edtTelefone, true));
         edtCep.addTextChangedListener(new MascaraWatcher(edtCep, false));
+        edtCpf.addTextChangedListener(new MascaraPadrao(edtCpf, "###.###.###-##"));
+        edtNascimento.addTextChangedListener(new MascaraPadrao(edtNascimento, "##/##/####"));
 
         configurarBotaoCadastrar();
             btnCadastrar.setOnClickListener(v -> cadastrar());
@@ -117,8 +141,8 @@ private void configurarBotaoCadastrar() {
         @Override public void onTextChanged(CharSequence s, int a, int b, int c) { }
         @Override public void afterTextChanged(Editable s) { atualizarBotaoCadastrar(); }
     };
-    EditText[] obrigatorios = {edtNome, edtSobrenome, edtEmail, edtTelefone, edtCep,
-            edtEndereco, edtSenha, edtConfirmarSenha, edtCarteirinha};
+    EditText[] obrigatorios = {edtNome, edtSobrenome, edtCpf, edtNascimento, edtEmail, edtTelefone, edtCep,
+            edtEndereco, edtNumero, edtCidade, edtUf, edtSenha, edtConfirmarSenha, edtCarteirinha};
     for (EditText campo : obrigatorios) {
         campo.addTextChangedListener(aoDigitar);
     }
@@ -183,10 +207,15 @@ private boolean formularioCompleto() {
     String senha = edtSenha.getText().toString();
     boolean dadosOk = !texto(edtNome).isEmpty()
             && !texto(edtSobrenome).isEmpty()
+            && Formatos.cpfValido(texto(edtCpf))
+            && validarNascimento(texto(edtNascimento)) == null
             && Patterns.EMAIL_ADDRESS.matcher(texto(edtEmail)).matches()
             && soDigitos(texto(edtTelefone)).length() >= 10
             && soDigitos(texto(edtCep)).length() == 8
             && !texto(edtEndereco).isEmpty()
+            && !texto(edtNumero).isEmpty()
+            && !texto(edtCidade).isEmpty()
+            && texto(edtUf).matches("[A-Za-z]{2}")
             && validarSenha(senha) == null
             && senha.equals(edtConfirmarSenha.getText().toString());
     if (!dadosOk) return false;
@@ -239,10 +268,16 @@ private boolean formularioCompleto() {
         boolean ok = true;
         if (nome.isEmpty()) { edtNome.setError("Informe o nome"); ok = false; }
         if (sobrenome.isEmpty()) { edtSobrenome.setError("Informe o sobrenome"); ok = false; }
+        if (!Formatos.cpfValido(texto(edtCpf))) { edtCpf.setError("CPF inválido"); ok = false; }
+        String erroNascimento = validarNascimento(texto(edtNascimento));
+        if (erroNascimento != null) { edtNascimento.setError(erroNascimento); ok = false; }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) { edtEmail.setError("E-mail inválido"); ok = false; }
         if (soDigitos(telefone).length() < 10) { edtTelefone.setError("Telefone com DDD inválido"); ok = false; }
         if (soDigitos(cep).length() != 8) { edtCep.setError("CEP deve ter 8 dígitos"); ok = false; }
-        if (endereco.isEmpty()) { edtEndereco.setError("Informe o endereço"); ok = false; }
+        if (endereco.isEmpty()) { edtEndereco.setError("Informe a rua"); ok = false; }
+        if (texto(edtNumero).isEmpty()) { edtNumero.setError("Informe o número"); ok = false; }
+        if (texto(edtCidade).isEmpty()) { edtCidade.setError("Informe a cidade"); ok = false; }
+        if (!texto(edtUf).matches("[A-Za-z]{2}")) { edtUf.setError("UF com 2 letras"); ok = false; }
 
         String erroSenha = validarSenha(senha);
         if (erroSenha != null) { edtSenha.setError(erroSenha); ok = false; }
@@ -259,28 +294,93 @@ private boolean formularioCompleto() {
         }
         if (!ok) return;
 
-        // Mesmo SharedPreferences usado pela BaseActivity/ProfileActivity,
-        // assim "Meu Perfil" já abre com nome, e-mail e telefone preenchidos.
-        SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
-        prefs.edit()
-                .putString("nome", nome + " " + sobrenome)
-                .putString("email", email)
-                .putString("telefone", telefone)
-                .putString("cep", cep)
-                .putString("endereco", endereco)
-                .putString("complemento", complemento)
-                .putBoolean("temPlanoSaude", temPlano)
-                .putString("planoSaude", temPlano ? plano : "")
-                .putString("carteirinha", temPlano ? carteirinha : "")
-                .apply();
+        // Monta o JSON no formato que a API espera (só dígitos, data aaaa-mm-dd)
+        CadastroPacienteRequest dados = new CadastroPacienteRequest();
+        dados.nome = nome;
+        dados.sobrenome = sobrenome;
+        dados.cpf = soDigitos(texto(edtCpf));
+        dados.dataNascimento = Formatos.dataIso(texto(edtNascimento));
+        dados.email = email;
+        dados.telefone = soDigitos(telefone);
+        dados.cep = soDigitos(cep);
+        dados.logradouro = endereco;
+        dados.numero = texto(edtNumero);
+        dados.complemento = complemento.isEmpty() ? null : complemento;
+        dados.bairro = texto(edtBairro).isEmpty() ? null : texto(edtBairro);
+        dados.cidade = texto(edtCidade);
+        dados.uf = texto(edtUf).toUpperCase(Locale.ROOT);
+        dados.planoSaude = temPlano ? plano : null;
+        dados.carteirinha = temPlano ? carteirinha : null;
+        dados.senha = senha;
 
-        // Limpa as senhas da tela após cadastro
-        edtSenha.setText("");
-        edtConfirmarSenha.setText("");
+        enviarCadastro(dados, nome + " " + sobrenome, email, telefone);
+    }
 
-        Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
+    /**
+     * Envia o cadastro para a API (POST /pacientes) em segundo plano.
+     * O botão fica bloqueado durante o envio para evitar cadastro duplicado.
+     */
+    private void enviarCadastro(CadastroPacienteRequest dados,
+                                String nomeCompleto, String email, String telefone) {
+        btnCadastrar.setEnabled(false);
+        ((TextView) btnCadastrar).setText("Enviando...");
+
+        ApiClient.api().cadastrarPaciente(dados).enqueue(new Callback<CadastroResponse>() {
+            @Override
+            public void onResponse(Call<CadastroResponse> call, Response<CadastroResponse> resposta) {
+                liberarBotao();
+                if (!resposta.isSuccessful()) {
+                    // Ex.: 409 "CPF já cadastrado" / "E-mail já cadastrado"
+                    mostrarErro(ApiClient.mensagemDeErro(resposta));
+                    return;
+                }
+
+                // Mantém o "Meu Perfil" preenchido, como antes (sem a senha)
+                SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
+                prefs.edit()
+                        .putString("nome", nomeCompleto)
+                        .putString("email", email)
+                        .putString("telefone", telefone)
+                        .apply();
+
+                edtSenha.setText("");
+                edtConfirmarSenha.setText("");
+                Toast.makeText(CadastroUsuarioActivity.this,
+                        "Cadastro realizado! Faça login para continuar.", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(CadastroUsuarioActivity.this, LoginActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<CadastroResponse> call, Throwable t) {
+                liberarBotao();
+                mostrarErro(ApiClient.mensagemDeFalha(t));
+            }
+        });
+    }
+
+    private void liberarBotao() {
+        btnCadastrar.setEnabled(true);
+        ((TextView) btnCadastrar).setText(R.string.btn_cadastrar);
+    }
+
+    private void mostrarErro(String mensagem) {
+        Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
+    }
+
+    /** Data no formato dd/mm/aaaa, existente e no passado. Retorna o erro ou null. */
+    private static String validarNascimento(String br) {
+        if (soDigitos(br).length() != 8) return "Use o formato dd/mm/aaaa";
+        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        f.setLenient(false); // recusa 31/02/2000
+        try {
+            Date data = f.parse(br);
+            if (data == null || !data.before(new Date())) return "Data de nascimento inválida";
+            if (br.substring(6).compareTo("1900") < 0) return "Data de nascimento inválida";
+            return null;
+        } catch (ParseException e) {
+            return "Data de nascimento inválida";
+        }
     }
 
     private static String texto(EditText e) {
@@ -339,6 +439,40 @@ private boolean formularioCompleto() {
                 sb.append(resto);
             }
             return sb.toString();
+        }
+    }
+
+    /**
+     * Máscara genérica: cada "#" do padrão é um dígito.
+     * Ex.: "###.###.###-##" (CPF) e "##/##/####" (data).
+     */
+    private static class MascaraPadrao implements TextWatcher {
+        private final EditText campo;
+        private final String padrao;
+        private boolean editando = false;
+
+        MascaraPadrao(EditText campo, String padrao) {
+            this.campo = campo;
+            this.padrao = padrao;
+        }
+
+        @Override public void beforeTextChanged(CharSequence s, int a, int b, int c) { }
+        @Override public void onTextChanged(CharSequence s, int a, int b, int c) { }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (editando) return;
+            editando = true;
+            String d = soDigitos(s.toString());
+            StringBuilder f = new StringBuilder();
+            int i = 0;
+            for (char c : padrao.toCharArray()) {
+                if (i >= d.length()) break;
+                f.append(c == '#' ? d.charAt(i++) : c);
+            }
+            campo.setText(f.toString());
+            campo.setSelection(campo.getText().length());
+            editando = false;
         }
     }
 }

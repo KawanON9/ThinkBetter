@@ -5,7 +5,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.thinkbetter.api.ApiClient;
+import com.example.thinkbetter.api.Formatos;
+import com.example.thinkbetter.api.PacienteDetalhe;
+import com.example.thinkbetter.api.Sessao;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ProntuarioActivity extends MenuJava {
+
+    /** Chave do Intent com o ID_Paciente (enviada pelo PacienteAdapter). */
+    public static final String EXTRA_ID_PACIENTE = "id_paciente";
 
     private TextView tvNome, tvCpf, tvNascimento, tvTelefone, tvPlano, tvEmail, tvEndereco, tvObs;
     private ImageButton btnVoltar;
@@ -30,35 +42,49 @@ public class ProntuarioActivity extends MenuJava {
 
         btnVoltar.setOnClickListener(v -> finish()); // Volta para a tela anterior
 
-        // Recuperando os dados enviados pela Intent da tela de listagem de pacientes
-        String nome = getIntent().getStringExtra("nome_paciente");
-        String plano = getIntent().getStringExtra("plano_paciente");
-        String telefone = getIntent().getStringExtra("telefone_paciente");
+        findViewById(R.id.btnEditarObs).setOnClickListener(v ->
+                Toast.makeText(this, "Modo de edição de observações clínicas", Toast.LENGTH_SHORT).show());
 
-        // Preenchendo os dados de forma dinâmica (se vieram vazios, usa dados de exemplo ou do Carlos Mendes[cite: 6])
-        if (nome != null) {
-            tvNome.setText(nome);
-            tvPlano.setText(plano != null ? plano : "Particular");
-            tvTelefone.setText(telefone != null ? telefone : "(11) 9 9000-0002");
-            tvCpf.setText("CPF: ***.***.***-02");
-            tvNascimento.setText("Nascimento: 07/11/1975");
-            tvEmail.setText("carlos@email.com");
-            tvEndereco.setText("Av. Paulista, 456");
-            tvObs.setText("Depressão leve");
-        } else {
-            // Dados padrão baseados na sua imagem de exemplo (Carlos Mendes)[cite: 6]
-            tvNome.setText("Carlos Mendes");
-            tvCpf.setText("CPF: ***.***.***-02");
-            tvNascimento.setText("Nascimento: 07/11/1975");
-            tvTelefone.setText("(11) 9 9000-0002");
-            tvPlano.setText("Particular");
-            tvEmail.setText("carlos@email.com");
-            tvEndereco.setText("Av. Paulista, 456");
-            tvObs.setText("Depressão leve");
+        long id = getIntent().getLongExtra(EXTRA_ID_PACIENTE, -1);
+        if (id < 0) {
+            Toast.makeText(this, "Paciente não informado", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
-        findViewById(R.id.btnEditarObs).setOnClickListener(v -> {
-            Toast.makeText(this, "Modo de edição de observações clínicas", Toast.LENGTH_SHORT).show();
+        tvNome.setText("Carregando...");
+        carregarPaciente(id);
+    }
+
+    /** GET /pacientes/{id}?psicologo={id} e preenche a tela. */
+    private void carregarPaciente(long id) {
+        // As observações são do prontuário do psicólogo logado com este paciente
+        long idPsicologo = Sessao.id(this);
+        ApiClient.api().buscarPaciente(id, idPsicologo).enqueue(new Callback<PacienteDetalhe>() {
+            @Override
+            public void onResponse(Call<PacienteDetalhe> call, Response<PacienteDetalhe> resposta) {
+                if (!resposta.isSuccessful() || resposta.body() == null) {
+                    Toast.makeText(ProntuarioActivity.this,
+                            ApiClient.mensagemDeErro(resposta), Toast.LENGTH_LONG).show();
+                    finish();
+                    return;
+                }
+                PacienteDetalhe p = resposta.body();
+                tvNome.setText(p.nome + " " + p.sobrenome);
+                tvCpf.setText("CPF: " + p.cpfMascarado);
+                tvNascimento.setText("Nascimento: " + Formatos.dataBr(p.dataNascimento));
+                tvTelefone.setText(Formatos.telefone(p.telefone));
+                tvPlano.setText(p.plano);
+                tvEmail.setText(p.email);
+                tvEndereco.setText(p.endereco);
+                tvObs.setText(p.observacoes != null ? p.observacoes : "Sem observações");
+            }
+
+            @Override
+            public void onFailure(Call<PacienteDetalhe> call, Throwable t) {
+                Toast.makeText(ProntuarioActivity.this,
+                        ApiClient.mensagemDeFalha(t), Toast.LENGTH_LONG).show();
+            }
         });
     }
 }

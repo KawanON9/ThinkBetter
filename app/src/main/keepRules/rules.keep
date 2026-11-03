@@ -10,3 +10,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+# --- ThinkBetter API (Retrofit + Gson) ---------------------------------
+# Os modelos são preenchidos por reflexão (Gson): os nomes dos campos
+# precisam continuar iguais aos do JSON no build release.
+-keep class com.example.thinkbetter.api.** { *; }
+-keepattributes Signature, *Annotation*
